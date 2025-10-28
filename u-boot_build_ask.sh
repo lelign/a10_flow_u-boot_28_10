@@ -47,7 +47,6 @@ if [ ! -d $home/$u_boot_ver ]; then
 	cd u-boot-socfpga
 	echo -e "\n\tтекущая директория = $(pwd)"
 	echo -e "u-boot версия = $(git branch)"
-
 	sleep 5
 fi
 
@@ -60,10 +59,10 @@ u_boot_dir=`pwd`
 #echo -e "\n\t2 текущая директория = $(pwd)"
 echo -e "\n\t\tU-BOOT git версия = $(git branch)\n" | tee -a $home/log
 info="U-BOOT git версия = $(git branch)"
-echo -e "???  /home/ignat/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
+#echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
 echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
-#read hps_isw_handoff_dir
-hps_isw_handoff_dir="/home/ignat/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
+read hps_isw_handoff_dir
+#hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
 if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
 	rm -rf hps_xml_link
 	ln -s $hps_isw_handoff_dir/hps.xml hps_xml_link
@@ -120,10 +119,10 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 ####################################################################
 ################ generate fit_spl_fpga.itb #########################
 ####################################################################
-echo -e "??? /home/ignat/temp_output_quartus"
+#echo -e "??? /home/$(whoami)/temp_output_quartus"
 echo -e "\n\t\tEnter full path to directory <output_files>"
-#read output_files
-output_files="/home/ignat/temp_output_quartus"
+read output_files
+#output_files="/home/$(whoami)/temp_output_quartus"
 if [ -d $output_files ]; then
     sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof) 
     quartus_cpf="/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus/bin/quartus_cpf"
@@ -261,4 +260,75 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	cp $handoff_h $(pwd)
 	cp $fit_spl_fpga_itb $(pwd)
 	echo -e "Path to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
+	path_sd_card_image=$path_sd_card/$title.img
 fi
+
+echo -e "\n\tПишем образ на SD карту? y/n"
+read continue
+if [ $continue == "y" ]; then
+	#echo -e "\n\tEnter full path to sd card image"
+	#read path_sd_card_image
+	dev_exist=false
+	unset device
+	if [ -f $path_sd_card_image ]; then
+		while true; do
+			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
+			if [[ "$device" == *"sd"* ]]; then
+				echo -e "\tls
+				found device dev/$device"
+				break
+			else
+				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
+				sleep 1
+				clear
+			fi
+		done
+
+
+		#device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
+		if [ -n $device ]; then
+				if [[ -n $(df | grep "/media/$(whoami)" | grep -o "/dev/$device[0-9]") ]]; then
+						echo -e "\n\t Needs umount!"
+						for dev in $(df | grep "/media/$(whoami)" | grep -o "/dev/$device[0-9]"); do
+							sudo umount $dev
+							echo -e "\t\tUmounted $dev"
+						done
+				fi
+			echo -e "\n\tПишем на /dev/$device? y/n"
+			read do_it
+			
+			if [ $do_it == "y" ]; then
+			##########################################################################
+			###################  write sd card #######################################
+			##########################################################################
+				sudo dd if=$path_sd_card_image of=/dev/$device status=progress
+				sync
+			##########################################################################	
+				#echo -e "\n\t\t$path_sd_card_image"
+				echo ""
+				sudo fdisk -l | grep $device  | tee -a $home/log
+				cp $home/log $(dirname $path_sd_card_image)/used_files
+				root_path=$(sudo fdisk -l | grep $device | grep Linux | cut -d " " -f 1)
+				rm -rf tmp_dir && mkdir tmp_dir
+				sudo mount $root_path tmp_dir
+				cp $(find $(dirname $path_sd_card_image)/used_files -maxdepth 1 -type f) ./tmp_dir/home/root -r
+				if  [ -d "./tmp_dir/home/root" ]; then
+					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root"
+					echo -e "\t$(ls ./tmp_dir/home/root)"
+				fi
+				sudo umount $root_path
+			else
+				echo -e "...exit"
+				sleep 3
+				exit
+			fi
+		else
+			echo -e "SD карта не найдена"
+		fi
+	else
+		echo -e "\t\t\Path\n $path_sd_card_image\n\t\t\tNOT EXIST!!!"
+	fi
+else
+	exit
+fi
+exit
