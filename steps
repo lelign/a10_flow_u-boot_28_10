@@ -1,0 +1,127 @@
+# ARRIA model 10AS027H4F34E3SG
+
+sudo rm -rf a10_example.sdmmc && mkdir a10_example.sdmmc && cd a10_example.sdmmc && export TOP_FOLDER=`pwd`
+
+export QUARTUS_ROOTDIR=/home/ignat/Quartus/Quartus_pro_21_4/quartus
+
+export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/linux64:$QUARTUS_ROOTDIR/../qsys/bin:$PATH
+
+cd $TOP_FOLDER
+rm -rf ghrd-socfpga a10_soc_devkit_ghrd
+git clone -b QPDS24.3_REL_GSRD_PR https://github.com/altera-opensource/ghrd-socfpga
+mv ghrd-socfpga/a10_soc_devkit_ghrd_pro .
+rm -rf ghrd-socfpga
+cd a10_soc_devkit_ghrd_pro
+make clean && make scrub_clean && rm -rf software
+make generate_from_tcl
+
+OK !!! <= с первого раза
+
+ls -alt
+total 2016
+drwxrwxr-x 6 ignat ignat   4096 Oct  9 16:06 .
+-rw-rw-r-- 1 ignat ignat      0 Oct  9 16:06 qsys_generate_qsys
+-rw-rw-r-- 1 ignat ignat  16941 Oct  9 16:06 ghrd_10as066n2.qsf
+drwxrwxr-x 3 ignat ignat   4096 Oct  9 16:06 qdb
+-rw-rw-r-- 1 ignat ignat 609974 Oct  9 16:06 qsys_top.qsys.legacy
+-rw-rw-r-- 1 ignat ignat 873115 Oct  9 16:06 qsys_top.qsys
+drwxrwxr-x 3 ignat ignat   4096 Oct  9 16:04 ip
+-rw-rw-r-- 1 ignat ignat  11689 Oct  9 16:04 ghrd_a10_top.v
+-rw-rw-r-- 1 ignat ignat   1330 Oct  9 16:04 ghrd_10as066n2.qpf
+
+make rbf
+
+# установил под Ubuntu Quartus
+# пришлось сделать вот это и переустановить заново
+sudo apt-get install libncurses6 	<= это и так есть
+sudo ln -s /usr/lib/x86_64-linux-gnu/libncursesw.so.6 /usr/lib/x86_64-linux-gnu/libncursesw.so.5
+sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
+
+
+
+# изменил MAC сетевой карты
+sudo ip link set dev enp2s0 down
+sudo ip link set dev enp2s0 address 90:2b:34:58:86:b0
+sudo ip link set dev enp2s0 up
+ifconfig
+enp2s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::a1b7:429:51c:c282  prefixlen 64  scopeid 0x20<link>
+        ether 90:2b:34:58:86:b0  txqueuelen 1000  (Ethernet) 			<= OK
+
+# указал в Quartus (tools=>license setup) на файл /media/ignat/Quartus/Q-21_4_dnld_tar/VIK_LICENSE/lic_profitt_902b345886b0.dat
+make rbf
+OK !!!
+
+ls
+construct_subsys_dp.tcl                               fpga_dp.sdc         ip
+construct_subsys_jtag_master.tcl                      fpga_niosii.sdc     jtag.sdc
+construct_subsys_mixer.tcl                            fpga_pcie.sdc       Makefile
+construct_subsys_pcie.tcl                             fpga_pr.sdc         output_files
+construct_subsys_peripheral.tcl                       fpga_sgmii.sdc      qdb
+construct_subsys_pr_region.tcl                        ghrd_10as066n2.qpf  qsys_generate_qsys
+construct_subsys_sgmii.tcl                            ghrd_10as066n2.qsf  qsys_top
+construct_subsys_tse.tcl                              ghrd_a10_top.v      qsys_top.qsys
+create_ghrd_qsys.tcl                                  ghrd_reset.tcl      qsys_top.qsys.legacy
+create_ghrd_quartus.tcl                               ghrd_sc_script.tcl  README.md
+create_ghrd_top.tcl                                   ghrd-socfpga        stamp
+create_pr_revision.tcl                                ghrd_timing.sdc     tmp-clearbox
+custom_ip                                             hps_isw_handoff     top_level_template.v.terp
+design_config.tcl                                     hps_sgmii.sdc       update_sysid.tcl
+emif_hps_altera_emif_arch_nf_191_nkljffq_summary.csv  intel_custom_ip     utils.tcl
+
+
+ls output_files
+ghrd_10as066n2.asm.rpt           ghrd_10as066n2.fit.route.rpt  ghrd_10as066n2.pin          ghrd_10as066n2.syn.rpt
+ghrd_10as066n2.core.rbf          ghrd_10as066n2.fit.rpt        ghrd_10as066n2.sld          ghrd_10as066n2.syn.smsg
+ghrd_10as066n2.fit.finalize.rpt  ghrd_10as066n2.fit.summary    ghrd_10as066n2.sof          ghrd_10as066n2.syn.summary
+ghrd_10as066n2.fit.place.rpt     ghrd_10as066n2.flow.rpt       ghrd_10as066n2.sta.rpt
+ghrd_10as066n2.fit.plan.rpt      ghrd_10as066n2.periph.rbf     ghrd_10as066n2.sta.summary
+
+ls hps_isw_handoff
+emif.xml  hps.xml  id
+
+
+
+cd $TOP_FOLDER/a10_soc_devkit_ghrd/
+mkdir -p software/bootloader
+cd software/bootlo
+git clone https://github.com/altera-opensource/u-boot-socfpga
+cd u-boot-socfpga
+
+git branch
+* socfpga_v2025.07
+
+cd $TOP_FOLDER/a10_soc_devkit_ghrd_pro/software/bootloader/u-boot-socfpga
+
+./arch/arm/mach-socfpga/qts-filter-a10.sh \
+../../../hps_isw_handoff/hps.xml \
+arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
+
+OK
+
+file arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
+arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h: C source, ASCII text
+
+cd $TOP_FOLDER/a10_soc_devkit_ghrd/software/bootloader/u-boot-socfpga
+export CROSS_COMPILE=arm-none-linux-gnueabihf-
+make socfpga_arria10_defconfig
+make -j 48
+
+
+
+cd $TOP_FOLDER/a10_soc_devkit_ghrd/software/bootloader/u-boot-socfpga
+ln -s ../../../output_files/ghrd_10as066n2.core.rbf .
+ln -s ../../../output_files/ghrd_10as066n2.periph.rbf .
+
+
+tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb
+#error
+sh: 1: dtc: not found
+sudo apt  install device-tree-compiler
+
+
+tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb
+
+OK !!!
+ls | grep fit_spl_fpga.itb
+fit_spl_fpga.itb <= OK

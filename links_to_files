@@ -1,0 +1,6 @@
+fpgamgr_program_poll_usermode: Failed to enter user mode with error code -110
+
+u-boot-socfpga/*/*/socfpga_arria10.c
+
+
+u-boot-socfpga/arch/arm/dts/socfpga_arria10_socdk_sdmmc.dts

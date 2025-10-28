@@ -1,0 +1,57 @@
+FPGA: Early Release Succeeded.                                                                                          
+FPGA: Checking FPGA configuration setting ...                                                                           
+FPGA: Start to program peripheral/full bitstream ...                                                                    
+FPGA: Early Release Succeeded.                                                                                          
+                                                                                                                        
+U-Boot SPL 2025.07-ge5f40a8ed1ec-dirty (Oct 16 2025 - 13:09:44 +0300)                                                   
+DDRCAL: Success                                                                                                         
+FPGA: Checking FPGA configuration setting ...                                                                           
+FPGA: Start to program core bitstream ...                                                                               
+Full Configuration Succeeded.                                                                                           
+FPGA: Enter user mode.                                                                                                  
+Trying to boot from MMC1 
+
+
+
+Как и ожидалось root на sd карте необязателен, но вот без boot partitiono не стартует
+boot можно изменять/дописывать позже
+boot без z-image	старт ок
+boot без .dtb		старт ок  
+boot без .itb		старт 	NO	<= именно так, перепроверил
+					с неправильным .itb также не стартует
+
+					поменял core.rbf & periph.rbf на ARPROV1 => поехало
+
+FPGA: Early Release Succeeded.                                                                                          
+FPGA: Checking FPGA configuration setting ...                                                                           
+FPGA: Start to program peripheral/full bitstream ...                                                                    
+FPGA: Early Release Succeeded.                                                                                          
+                                                                                                                        
+U-Boot SPL 2025.07-ge5f40a8ed1ec-dirty (Oct 20 2025 - 17:25:56 +0300)                                                   
+DDRCAL: Success                                                                                                         
+FPGA: Checking FPGA configuration setting ...                                                                           
+FPGA: Start to program core bitstream ...                                                                               
+Full Configuration Succeeded.                                                                                           
+FPGA: Enter user mode.                                                                                                  
+Trying to boot from MMC1 
+
+
+
+boot без u-boot		старт сообщение:
+ 	spl_load_image_fat: error reading image u-boot.img, err - -5                                                            
+	Error: -2                                                                                                               
+	SPL: failed to boot from all boot devices                                                                               
+	### ERROR ### Please RESET the board ###
+
+
+Чтобы сгенерировать core.rbf && periph.rbf проект должен быть скомпилирован с установками
+assigment => device => device & pin options => CVP settings => Configuration via protocol <core initialization>
+project /home/ignat/Quartus_projects/AR_PROV1_2_compiled_with_some_changes
+27_10 device & pin option => partial reconfiguration => set ON Generate partial Reconfiguration Raw binary file
+
+
+ну а затем 
+file => convert programming file => <on> creat cvp files (core & periph)
+
+добавил флаг compression в свойствах sof файла для convert programming files => увы...
+из под GUI Quartus <convert programming files> не дает нужного результата
