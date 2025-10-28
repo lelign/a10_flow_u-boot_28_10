@@ -36,7 +36,7 @@ a10_soc_devkit_ghrd_pro="a10_soc_devkit_ghrd_pro"
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 gsrd_dir=`pwd`
 
-u_boot_ver="u-boot-socfpga_test-bootloader"
+u_boot_ver="u-boot-socfpga_v2025.07"
 if [ ! -d $home/$u_boot_ver ]; then
 #if [ ! -d "../../u-boot-socfpga" ]; then
 	echo "\tнеобходимо установить u-boot toolchan, команды:" | tee -a $home/log
@@ -124,8 +124,13 @@ echo -e "\n\t\tEnter full path to directory <output_files>"
 read output_files
 #output_files="/home/$(whoami)/temp_output_quartus"
 if [ -d $output_files ]; then
-    sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof) 
-    quartus_cpf="/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus/bin/quartus_cpf"
+    sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
+	quartus=$(find /home -maxdepth 4 -type d -name "quartus")
+	if [ ! -d $quartus/bin ]; then
+		echo -e "Quartus not found!!!"
+		exit
+	fi 
+    quartus_cpf=$quartus/bin/quartus_cpf
     if [[ -f $sof_file && -f $quartus_cpf ]]; then
         flags="-c --hps -o bitstream_compression=on "
         output_rbf=$title
