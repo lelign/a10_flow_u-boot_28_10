@@ -59,10 +59,28 @@ u_boot_dir=`pwd`
 #echo -e "\n\t2 текущая директория = $(pwd)"
 echo -e "\n\t\tU-BOOT git версия = $(git branch)\n" | tee -a $home/log
 info="U-BOOT git версия = $(git branch)"
-echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
-echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
+### for fast only
+if [ -f "$home/.fast_uboot_input_files" ]; then
+	hps_isw_handoff_dir=$(cat $home/.fast_uboot_input_files | head -1)
+	output_files=$(cat $home/.fast_uboot_input_files | tail -1) 
+else
+	echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
+	read hps_isw_handoff_dir
+	echo $hps_isw_handoff_dir > $home/.fast_uboot_input_files
+	echo -e "\n\t\tEnter full path to directory <output_files>"
+	read output_files
+	echo $output_files >> $home/.fast_uboot_input_files
+fi
+
+echo -e "\n\thps_isw_handoff_dir => $hps_isw_handoff_dir"
+echo -e "\toutput_files => $output_files"
+echo ""
+
+
+#echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
+#echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
 #read hps_isw_handoff_dir
-hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
+#hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
 if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
 	rm -rf hps_xml_link
 	ln -s $hps_isw_handoff_dir/hps.xml hps_xml_link
@@ -73,6 +91,7 @@ if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
     echo -e "\t$(file arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h) re-recorded at $re_recorded" | tee -a $home/log
     handoff_h=$(realpath arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h)
 else
+	rm -rf $home/.fast_uboot_input_files
 	echo -e "Error : directory hps_isw_handoff on path $hps_isw_handoff not found !"
 	exit
 fi
@@ -122,10 +141,16 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 echo -e "??? /home/$(whoami)/temp_output_quartus"
 #echo -e "\n\t\tEnter full path to directory <output_files>"
 #read output_files
-output_files="/home/$(whoami)/temp_output_quartus"
+#output_files="/home/$(whoami)/temp_output_quartus"
 if [ -d $output_files ]; then
-    sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof) 
-    quartus_cpf="/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus/bin/quartus_cpf"
+    sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
+	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
+	if [ ! -d $quartus/bin ]; then
+		echo -e "Quartus not found!!!"
+		exit
+	fi  
+	quartus_cpf=$quartus/bin/quartus_cpf
+    #quartus_cpf="/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus/bin/quartus_cpf"
     if [[ -f $sof_file && -f $quartus_cpf ]]; then
         flags="-c --hps -o bitstream_compression=on "
         output_rbf=$title

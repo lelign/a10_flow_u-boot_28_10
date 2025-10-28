@@ -125,7 +125,7 @@ read output_files
 #output_files="/home/$(whoami)/temp_output_quartus"
 if [ -d $output_files ]; then
     sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
-	quartus=$(find /home -maxdepth 4 -type d -name "quartus")
+	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
 	if [ ! -d $quartus/bin ]; then
 		echo -e "Quartus not found!!!"
 		exit
