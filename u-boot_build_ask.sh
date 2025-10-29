@@ -126,9 +126,12 @@ read output_files
 if [ -d $output_files ]; then
     sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
-	if [ ! -d $quartus/bin ]; then
-		echo -e "Quartus not found!!!"
-		exit
+	if [ ! -d "$quartus" ]; then
+		quartus=$(find /home/$(whoami)/Quartus/ -maxdepth 3 -type d -name "quartus" | grep "Quartus_pro_21_4/quartus")
+		if [ ! -d "$quartus" ]; then
+			echo -e "Quartus not found!!!"
+			exit
+		fi
 	fi 
     quartus_cpf=$quartus/bin/quartus_cpf
     if [[ -f $sof_file && -f $quartus_cpf ]]; then
@@ -279,8 +282,7 @@ if [ $continue == "y" ]; then
 		while true; do
 			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
 			if [[ "$device" == *"sd"* ]]; then
-				echo -e "\tls
-				found device dev/$device"
+				echo -e "\tfound device dev/$device"
 				break
 			else
 				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
@@ -318,8 +320,10 @@ if [ $continue == "y" ]; then
 				sudo mount $root_path tmp_dir
 				cp $(find $(dirname $path_sd_card_image)/used_files -maxdepth 1 -type f) ./tmp_dir/home/root -r
 				if  [ -d "./tmp_dir/home/root" ]; then
-					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root"
-					echo -e "\t$(ls ./tmp_dir/home/root)"
+					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root:"
+					for f in $(ls ./tmp_dir/home/root); do
+					echo -e "\t\t$f"
+					done
 				fi
 				sudo umount $root_path
 			else

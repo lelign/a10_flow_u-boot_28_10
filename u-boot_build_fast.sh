@@ -36,7 +36,7 @@ a10_soc_devkit_ghrd_pro="a10_soc_devkit_ghrd_pro"
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 gsrd_dir=`pwd`
 
-u_boot_ver="u-boot-socfpga_test-bootloader"
+u_boot_ver="u-boot-socfpga_v2025.07"
 if [ ! -d $home/$u_boot_ver ]; then
 #if [ ! -d "../../u-boot-socfpga" ]; then
 	echo "\tнеобходимо установить u-boot toolchan, команды:" | tee -a $home/log
@@ -92,7 +92,7 @@ if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
     handoff_h=$(realpath arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h)
 else
 	rm -rf $home/.fast_uboot_input_files
-	echo -e "Error : directory hps_isw_handoff on path $hps_isw_handoff not found !"
+	echo -e "Error : directory hps_isw_handoff on path $hps_isw_handoff_dir not found !\nпросто запусти скрипт еще раз и введи правильный путь"
 	exit
 fi
 
@@ -145,9 +145,12 @@ echo -e "??? /home/$(whoami)/temp_output_quartus"
 if [ -d $output_files ]; then
     sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
-	if [ ! -d $quartus/bin ]; then
-		echo -e "Quartus not found!!!"
-		exit
+	if [ ! -d "$quartus" ]; then
+		quartus=$(find /home/$(whoami)/Quartus/ -maxdepth 3 -type d -name "quartus" | grep "Quartus_pro_21_4/quartus")
+		if [ ! -d "$quartus" ]; then
+			echo -e "Quartus not found!!!"
+			exit
+		fi
 	fi  
 	quartus_cpf=$quartus/bin/quartus_cpf
     #quartus_cpf="/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus/bin/quartus_cpf"
@@ -299,8 +302,7 @@ if [ $continue == "y" ]; then
 		while true; do
 			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
 			if [[ "$device" == *"sd"* ]]; then
-				echo -e "\tls
-				found device dev/$device"
+				echo -e "\tfound device dev/$device"
 				break
 			else
 				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
@@ -338,8 +340,10 @@ if [ $continue == "y" ]; then
 				sudo mount $root_path tmp_dir
 				cp $(find $(dirname $path_sd_card_image)/used_files -maxdepth 1 -type f) ./tmp_dir/home/root -r
 				if  [ -d "./tmp_dir/home/root" ]; then
-					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root"
-					echo -e "\t$(ls ./tmp_dir/home/root)"
+					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root:"
+					for f in $(ls ./tmp_dir/home/root); do
+					echo -e "\t\t$f"
+					done
 				fi
 				sudo umount $root_path
 			else
