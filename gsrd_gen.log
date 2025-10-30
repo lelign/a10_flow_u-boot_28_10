@@ -1,0 +1,913 @@
+Folder intel_custom_ip exists. Compilation will proceed with local directory
+make -s scrub_clean
+You're already as clean as it gets!
+make quartus_generate_qsf_qpf quartus_generate_top qsys_generate_qsys
+make[1]: Entering directory '/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro'
+quartus_sh --script=create_ghrd_quartus.tcl devicefamily Arria\ 10 device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+Info: *******************************************************************
+Info: Running Quartus Prime Shell
+    Info: Version 21.4.0 Build 67 12/06/2021 SC Pro Edition
+    Info: Copyright (C) 2021  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Wed Oct 29 22:49:41 2025
+    Info: System process ID: 94734
+Info: Command: quartus_sh --script=create_ghrd_quartus.tcl devicefamily "Arria 10" device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+Info: Quartus(args): devicefamily {Arria 10} device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+-> Accepted parameter: devicefamily,  	Value: Arria 10
+-> Accepted parameter: device,  	Value: 10AS066N3F40E2SG
+-> Accepted parameter: board_rev,  	Value: C
+-> Accepted parameter: hps_sdram,  	Value: D9WFH
+-> Accepted parameter: hps_sdram_ecc,  	Value: 1
+-> Accepted parameter: boot_device,  	Value: SDMMC
+-> Accepted parameter: early_io_release,  	Value: 1
+Info (125061): Changed top-level design entity name to "ghrd_a10_top"
+Info (23030): Evaluation of Tcl script create_ghrd_quartus.tcl was successful
+Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 893 megabytes
+    Info: Processing ended: Wed Oct 29 22:49:41 2025
+    Info: Elapsed time: 00:00:00
+    Info: System process ID: 94734
+quartus_sh --script=create_ghrd_top.tcl devicefamily Arria\ 10 device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+Info: *******************************************************************
+Info: Running Quartus Prime Shell
+    Info: Version 21.4.0 Build 67 12/06/2021 SC Pro Edition
+    Info: Copyright (C) 2021  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Wed Oct 29 22:49:41 2025
+    Info: System process ID: 94759
+Info: Command: quartus_sh --script=create_ghrd_top.tcl devicefamily "Arria 10" device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+Info: Quartus(args): devicefamily {Arria 10} device 10AS066N3F40E2SG board_rev C hps_sdram D9WFH hps_sdram_ecc 1 boot_device SDMMC early_io_release 1
+-> Accepted parameter: devicefamily,  	Value: Arria 10
+-> Accepted parameter: device,  	Value: 10AS066N3F40E2SG
+-> Accepted parameter: board_rev,  	Value: C
+-> Accepted parameter: hps_sdram,  	Value: D9WFH
+-> Accepted parameter: hps_sdram_ecc,  	Value: 1
+-> Accepted parameter: boot_device,  	Value: SDMMC
+-> Accepted parameter: early_io_release,  	Value: 1
+Info (23030): Evaluation of Tcl script create_ghrd_top.tcl was successful
+Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 762 megabytes
+    Info: Processing ended: Wed Oct 29 22:49:41 2025
+    Info: Elapsed time: 00:00:00
+    Info: System process ID: 94759
+Folder intel_custom_ip exists. Compilation will proceed with local directory
+qsys-script --quartus-project=ghrd_10as066n2.qpf --rev=ghrd_10as066n2 --script=create_ghrd_qsys.tcl --cmd="set devicefamily Arria\ 10; set device 10AS066N3F40E2SG; set board_rev C; set hps_sdram D9WFH; set hps_sdram_ecc 1; set boot_device SDMMC; set early_io_release 1;"
+***************************************************************
+Quartus is a registered trademark of Intel Corporation in the
+US and other countries.  Portions of the Quartus Prime software
+code, and other portions of the code included in this download
+or on this DVD, are licensed to Intel Corporation and are the
+copyrighted property of third parties. For license details,
+refer to the End User License Agreement at
+http://fpgasoftware.intel.com/eula.
+***************************************************************
+
+2025.10.29.22:49:42 Info: Doing: qsys-script --quartus-project=ghrd_10as066n2.qpf --rev=ghrd_10as066n2 --script=create_ghrd_qsys.tcl --cmd=set devicefamily Arria\ 10; set device 10AS066N3F40E2SG; set board_rev C; set hps_sdram D9WFH; set hps_sdram_ecc 1; set boot_device SDMMC; set early_io_release 1;
+-- Accepted parameter $devicefamily = Arria 10
+-- Accepted parameter $device = 10AS066N3F40E2SG
+-- Accepted parameter $hps_sdram = D9WFH
+-- Accepted parameter $hps_sdram_ecc = 1
+-- Accepted parameter $boot_device = SDMMC
+-- Accepted parameter $board_rev = C
+-- Accepted parameter $early_io_release = 1
+VARIANT:     480c
+SYSID  : c008480c
+2025.10.29.22:49:45 Info: reload_ip_catalog 
+2025.10.29.22:49:46 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/root_components.ipx
+2025.10.29.22:49:46 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/root_components.ipx: Loading now from components.ipx
+2025.10.29.22:49:46 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/ip_component_categories.ipx
+2025.10.29.22:49:46 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/ip_component_categories.ipx described 0 plugins, 0 paths, in 0.00 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/ip_component_categories.ipx matched 1 files in 0.01 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/**/* matched 17 files in 0.04 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/* matched 130 files in 0.00 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/*/* matched 927 files in 0.01 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/intel_custom_ip/**/* matched 35 files in 0.09 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/custom_ip/**/* matched 10 files in 0.02 seconds
+2025.10.29.22:49:46 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/$$QUARTUS_IP_GLOBALDIR/* matched 0 files in 0.00 seconds
+2025.10.29.22:49:46 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/altera_components.ipx
+2025.10.29.22:49:46 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/hw_altera_components.iipx
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/hw_altera_components.iipx described 3190 plugins, 0 paths, in 0.22 seconds
+2025.10.29.22:49:47 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/sw_altera_components.iipx
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/sw_altera_components.iipx described 93 plugins, 0 paths, in 0.01 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/altera_components.ipx described 0 plugins, 2 paths, in 0.23 seconds
+2025.10.29.22:49:47 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/toolkits.ipx
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/ip/altera/toolkits.ipx described 30 plugins, 0 paths, in 0.01 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/ip/**/* matched 133 files in 0.23 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/ip/**/* matched 0 files in 0.00 seconds
+2025.10.29.22:49:47 Info: Info: Reading index /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/builtin.ipx
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/builtin.ipx described 95 plugins, 0 paths, in 0.01 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/builtin.ipx matched 1 files in 0.01 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/quartus/common/librarian/factories/**/* matched 0 files in 0.00 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/$IP_IPX_PATH matched 1 files in 0.00 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/root_components.ipx described 0 plugins, 12 paths, in 0.41 seconds
+2025.10.29.22:49:47 Info: Info: /media/ignat/Quartus/Quartus_pro_21_4/qsys/lib/root_components.ipx matched 1 files in 0.41 seconds
+2025.10.29.22:49:47 Info: create_system qsys_top
+2025.10.29.22:49:47 Info: set_project_property DEVICE_FAMILY Arria 10
+2025.10.29.22:49:47 Info: set_project_property DEVICE 10AS066N3F40E2SG
+2025.10.29.22:49:47 Info: add_component clk_100 ip/qsys_top/clk_100.ip altera_clock_bridge
+2025.10.29.22:49:47 Info: clk_100: Generic Component instance footprint reloaded.
+2025.10.29.22:49:47 Info: load_component clk_100
+Param:[EXPLICIT_CLOCK_RATE]
+Value:[100000000]
+2025.10.29.22:49:47 Info: set_component_parameter_value EXPLICIT_CLOCK_RATE 100000000
+Param:[NUM_CLOCK_OUTPUTS]
+Value:[1]
+2025.10.29.22:49:47 Info: set_component_parameter_value NUM_CLOCK_OUTPUTS 1
+2025.10.29.22:49:47 Info: save_component 
+2025.10.29.22:49:48 Info: add_component rst_in ip/qsys_top/rst_in.ip altera_reset_bridge
+2025.10.29.22:49:48 Info: rst_in: Generic Component instance footprint reloaded.
+2025.10.29.22:49:48 Info: load_component rst_in
+Param:[ACTIVE_LOW_RESET]
+Value:[1]
+2025.10.29.22:49:48 Info: set_component_parameter_value ACTIVE_LOW_RESET 1
+Param:[SYNCHRONOUS_EDGES]
+Value:[deassert]
+2025.10.29.22:49:48 Info: set_component_parameter_value SYNCHRONOUS_EDGES deassert
+Param:[NUM_RESET_OUTPUTS]
+Value:[1]
+2025.10.29.22:49:48 Info: set_component_parameter_value NUM_RESET_OUTPUTS 1
+Param:[USE_RESET_REQUEST]
+Value:[0]
+2025.10.29.22:49:48 Info: set_component_parameter_value USE_RESET_REQUEST 0
+2025.10.29.22:49:48 Info: save_component 
+2025.10.29.22:49:48 Info: add_component rst_bdg ip/qsys_top/rst_bdg.ip altera_reset_bridge
+2025.10.29.22:49:48 Info: rst_bdg: Generic Component instance footprint reloaded.
+2025.10.29.22:49:48 Info: load_component rst_bdg
+Param:[SYNCHRONOUS_EDGES]
+Value:[deassert]
+2025.10.29.22:49:48 Info: set_component_parameter_value SYNCHRONOUS_EDGES deassert
+Param:[NUM_RESET_OUTPUTS]
+Value:[1]
+2025.10.29.22:49:48 Info: set_component_parameter_value NUM_RESET_OUTPUTS 1
+Param:[USE_RESET_REQUEST]
+Value:[0]
+2025.10.29.22:49:48 Info: set_component_parameter_value USE_RESET_REQUEST 0
+2025.10.29.22:49:48 Info: save_component 
+Length of argument: 1
+Instance Name: rst_bdg
+2025.10.29.22:49:48 Info: load_component rst_bdg
+Param:[ACTIVE_LOW_RESET]
+Value:[0]
+2025.10.29.22:49:48 Info: set_component_parameter_value ACTIVE_LOW_RESET 0
+2025.10.29.22:49:48 Info: save_component 
+2025.10.29.22:49:48 Info: add_component ocm_0 ip/qsys_top/ocm_0.ip altera_avalon_onchip_memory2
+2025.10.29.22:49:48 Info: ocm_0: Generic Component instance footprint reloaded.
+2025.10.29.22:49:48 Info: load_component ocm_0
+Param:[memorySize]
+Value:[262144.0]
+2025.10.29.22:49:48 Info: set_component_parameter_value memorySize 262144.0
+Param:[singleClockOperation]
+Value:[1]
+2025.10.29.22:49:48 Info: set_component_parameter_value singleClockOperation 1
+2025.10.29.22:49:48 Info: save_component 
+Length of argument: 1
+Instance Name: ocm_0
+2025.10.29.22:49:48 Info: load_component ocm_0
+Param:[dataWidth]
+Value:[8]
+2025.10.29.22:49:48 Info: set_component_parameter_value dataWidth 8
+2025.10.29.22:49:48 Info: save_component 
+2025.10.29.22:49:48 Info: add_component issp_0 ip/qsys_top/issp_0.ip altera_in_system_sources_probes
+2025.10.29.22:49:48 Info: issp_0: Generic Component instance footprint reloaded.
+2025.10.29.22:49:48 Info: load_component issp_0
+Param:[instance_id]
+Value:[RST]
+2025.10.29.22:49:48 Info: set_component_parameter_value instance_id RST
+Param:[probe_width]
+Value:[0]
+2025.10.29.22:49:48 Info: set_component_parameter_value probe_width 0
+Param:[source_width]
+Value:[3]
+2025.10.29.22:49:48 Info: set_component_parameter_value source_width 3
+Param:[source_initial_value]
+Value:[0]
+2025.10.29.22:49:48 Info: set_component_parameter_value source_initial_value 0
+Param:[create_source_clock]
+Value:[1]
+2025.10.29.22:49:48 Info: set_component_parameter_value create_source_clock 1
+2025.10.29.22:49:48 Info: save_component 
+2025.10.29.22:49:48 Info: add_instance a10_hps altera_arria10_hps
+Param:[MPU_EVENTS_Enable]
+Value:[0]
+2025.10.29.22:49:56 Info: set_instance_parameter_value a10_hps MPU_EVENTS_Enable 0
+Param:[STM_Enable]
+Value:[1]
+2025.10.29.22:49:57 Info: set_instance_parameter_value a10_hps STM_Enable 1
+Param:[F2S_Width]
+Value:[6]
+2025.10.29.22:49:58 Info: set_instance_parameter_value a10_hps F2S_Width 6
+Param:[S2F_Width]
+Value:[4]
+2025.10.29.22:49:59 Info: set_instance_parameter_value a10_hps S2F_Width 4
+Param:[LWH2F_Enable]
+Value:[2]
+2025.10.29.22:50:00 Info: set_instance_parameter_value a10_hps LWH2F_Enable 2
+Param:[F2SDRAM_PORT_CONFIG]
+Value:[6]
+2025.10.29.22:50:00 Info: set_instance_parameter_value a10_hps F2SDRAM_PORT_CONFIG 6
+Param:[F2SDRAM0_ENABLED]
+Value:[1]
+2025.10.29.22:50:01 Info: set_instance_parameter_value a10_hps F2SDRAM0_ENABLED 1
+Param:[F2SDRAM1_ENABLED]
+Value:[0]
+2025.10.29.22:50:03 Info: set_instance_parameter_value a10_hps F2SDRAM1_ENABLED 0
+Param:[F2SDRAM2_ENABLED]
+Value:[1]
+2025.10.29.22:50:03 Info: set_instance_parameter_value a10_hps F2SDRAM2_ENABLED 1
+Param:[F2SINTERRUPT_Enable]
+Value:[1]
+2025.10.29.22:50:04 Info: set_instance_parameter_value a10_hps F2SINTERRUPT_Enable 1
+Param:[CLK_SDMMC_SOURCE]
+Value:[1]
+2025.10.29.22:50:06 Info: set_instance_parameter_value a10_hps CLK_SDMMC_SOURCE 1
+Param:[MPU_CLK_VCCL]
+Value:[1]
+2025.10.29.22:50:07 Info: set_instance_parameter_value a10_hps MPU_CLK_VCCL 1
+Param:[CUSTOM_MPU_CLK]
+Value:[1020]
+2025.10.29.22:50:10 Info: set_instance_parameter_value a10_hps CUSTOM_MPU_CLK 1020
+Param:[L3_MAIN_FREE_CLK]
+Value:[200]
+2025.10.29.22:50:11 Info: set_instance_parameter_value a10_hps L3_MAIN_FREE_CLK 200
+Param:[L4_SYS_FREE_CLK]
+Value:[1]
+2025.10.29.22:50:14 Info: set_instance_parameter_value a10_hps L4_SYS_FREE_CLK 1
+Param:[NOCDIV_L4MAINCLK]
+Value:[0]
+2025.10.29.22:50:14 Info: set_instance_parameter_value a10_hps NOCDIV_L4MAINCLK 0
+Param:[NOCDIV_L4MPCLK]
+Value:[0]
+2025.10.29.22:50:14 Info: set_instance_parameter_value a10_hps NOCDIV_L4MPCLK 0
+Param:[NOCDIV_L4SPCLK]
+Value:[2]
+2025.10.29.22:50:15 Info: set_instance_parameter_value a10_hps NOCDIV_L4SPCLK 2
+Param:[NOCDIV_CS_ATCLK]
+Value:[0]
+2025.10.29.22:50:15 Info: set_instance_parameter_value a10_hps NOCDIV_CS_ATCLK 0
+Param:[NOCDIV_CS_PDBGCLK]
+Value:[1]
+2025.10.29.22:50:15 Info: set_instance_parameter_value a10_hps NOCDIV_CS_PDBGCLK 1
+Param:[NOCDIV_CS_TRACECLK]
+Value:[1]
+2025.10.29.22:50:15 Info: set_instance_parameter_value a10_hps NOCDIV_CS_TRACECLK 1
+Param:[HPS_DIV_GPIO_FREQ]
+Value:[125]
+2025.10.29.22:50:16 Info: set_instance_parameter_value a10_hps HPS_DIV_GPIO_FREQ 125
+Param:[FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC1_GTX_CLK]
+Value:[125]
+2025.10.29.22:50:16 Info: set_instance_parameter_value a10_hps FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC1_GTX_CLK 125
+Param:[FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC2_GTX_CLK]
+Value:[125]
+2025.10.29.22:50:17 Info: set_instance_parameter_value a10_hps FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC2_GTX_CLK 125
+Param:[F2H_DBG_RST_Enable]
+Value:[1]
+2025.10.29.22:50:19 Info: set_instance_parameter_value a10_hps F2H_DBG_RST_Enable 1
+Param:[F2H_WARM_RST_Enable]
+Value:[1]
+2025.10.29.22:50:20 Info: set_instance_parameter_value a10_hps F2H_WARM_RST_Enable 1
+Param:[F2H_COLD_RST_Enable]
+Value:[1]
+2025.10.29.22:50:21 Info: set_instance_parameter_value a10_hps F2H_COLD_RST_Enable 1
+Length of argument: 1
+Instance Name: a10_hps
+Param:[EMIF_CONDUIT_Enable]
+Value:[1]
+2025.10.29.22:50:23 Info: set_instance_parameter_value a10_hps EMIF_CONDUIT_Enable 1
+Length of argument: 1
+Instance Name: a10_hps
+Param:[EMAC0_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:23 Info: set_instance_parameter_value a10_hps EMAC0_PinMuxing IO
+Param:[EMAC0_Mode]
+Value:[RGMII_with_MDIO]
+2025.10.29.22:50:25 Info: set_instance_parameter_value a10_hps EMAC0_Mode RGMII_with_MDIO
+Length of argument: 1
+Instance Name: a10_hps
+Param:[EMAC1_PinMuxing]
+Value:[Unused]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps EMAC1_PinMuxing Unused
+Param:[EMAC1_Mode]
+Value:[N/A]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps EMAC1_Mode N/A
+Length of argument: 1
+Instance Name: a10_hps
+Param:[EMAC2_PinMuxing]
+Value:[Unused]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps EMAC2_PinMuxing Unused
+Param:[EMAC2_Mode]
+Value:[N/A]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps EMAC2_Mode N/A
+Length of argument: 1
+Instance Name: a10_hps
+Param:[NAND_PinMuxing]
+Value:[Unused]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps NAND_PinMuxing Unused
+Param:[NAND_Mode]
+Value:[N/A]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps NAND_Mode N/A
+Length of argument: 1
+Instance Name: a10_hps
+Param:[QSPI_PinMuxing]
+Value:[Unused]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps QSPI_PinMuxing Unused
+Param:[QSPI_Mode]
+Value:[N/A]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps QSPI_Mode N/A
+Length of argument: 1
+Instance Name: a10_hps
+Param:[SDMMC_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:27 Info: set_instance_parameter_value a10_hps SDMMC_PinMuxing IO
+Param:[SDMMC_Mode]
+Value:[8-bit]
+2025.10.29.22:50:30 Info: set_instance_parameter_value a10_hps SDMMC_Mode 8-bit
+Length of argument: 1
+Instance Name: a10_hps
+Param:[USB0_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:31 Info: set_instance_parameter_value a10_hps USB0_PinMuxing IO
+Param:[USB0_Mode]
+Value:[default]
+2025.10.29.22:50:33 Info: set_instance_parameter_value a10_hps USB0_Mode default
+Length of argument: 1
+Instance Name: a10_hps
+Param:[SPIM0_PinMuxing]
+Value:[Unused]
+2025.10.29.22:50:34 Info: set_instance_parameter_value a10_hps SPIM0_PinMuxing Unused
+Param:[SPIM0_Mode]
+Value:[N/A]
+2025.10.29.22:50:34 Info: set_instance_parameter_value a10_hps SPIM0_Mode N/A
+Length of argument: 1
+Instance Name: a10_hps
+Param:[SPIM1_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:34 Info: set_instance_parameter_value a10_hps SPIM1_PinMuxing IO
+Param:[SPIM1_Mode]
+Value:[Dual_slave_selects]
+2025.10.29.22:50:36 Info: set_instance_parameter_value a10_hps SPIM1_Mode Dual_slave_selects
+Param:[UART1_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:38 Info: set_instance_parameter_value a10_hps UART1_PinMuxing IO
+Param:[UART1_Mode]
+Value:[No_flow_control]
+2025.10.29.22:50:39 Info: set_instance_parameter_value a10_hps UART1_Mode No_flow_control
+Length of argument: 1
+Instance Name: a10_hps
+Param:[I2C1_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:41 Info: set_instance_parameter_value a10_hps I2C1_PinMuxing IO
+Length of argument: 1
+Instance Name: a10_hps
+Param:[I2C1_Mode]
+Value:[default]
+2025.10.29.22:50:43 Info: set_instance_parameter_value a10_hps I2C1_Mode default
+Length of argument: 1
+Instance Name: a10_hps
+Param:[TRACE_PinMuxing]
+Value:[IO]
+2025.10.29.22:50:44 Info: set_instance_parameter_value a10_hps TRACE_PinMuxing IO
+Param:[TRACE_Mode]
+Value:[default]
+2025.10.29.22:50:46 Info: set_instance_parameter_value a10_hps TRACE_Mode default
+Length of argument: 1
+Instance Name: a10_hps
+Param:[HPS_IO_Enable]
+Value:[SDMMC:D0 SDMMC:CMD SDMMC:CCLK SDMMC:D1 SDMMC:D2 SDMMC:D3 NONE NONE SDMMC:D4 SDMMC:D5 SDMMC:D6 SDMMC:D7 UART1:TX UART1:RX USB0:CLK USB0:STP USB0:DIR USB0:DATA0 USB0:DATA1 USB0:NXT USB0:DATA2 USB0:DATA3 USB0:DATA4 USB0:DATA5 USB0:DATA6 USB0:DATA7 EMAC0:TX_CLK EMAC0:TX_CTL EMAC0:RX_CLK EMAC0:RX_CTL EMAC0:TXD0 EMAC0:TXD1 EMAC0:RXD0 EMAC0:RXD1 EMAC0:TXD2 EMAC0:TXD3 EMAC0:RXD2 EMAC0:RXD3 SPIM1:CLK SPIM1:MOSI SPIM1:MISO SPIM1:SS0_N SPIM1:SS1_N GPIO NONE NONE NONE NONE MDIO0:MDIO MDIO0:MDC I2C1:SDA I2C1:SCL GPIO TRACE:CLK GPIO GPIO NONE GPIO TRACE:D0 TRACE:D1 TRACE:D2 TRACE:D3]
+2025.10.29.22:50:48 Info: set_instance_parameter_value a10_hps HPS_IO_Enable SDMMC:D0 SDMMC:CMD SDMMC:CCLK SDMMC:D1 SDMMC:D2 SDMMC:D3 NONE NONE SDMMC:D4 SDMMC:D5 SDMMC:D6 SDMMC:D7 UART1:TX UART1:RX USB0:CLK USB0:STP USB0:DIR USB0:DATA0 USB0:DATA1 USB0:NXT USB0:DATA2 USB0:DATA3 USB0:DATA4 USB0:DATA5 USB0:DATA6 USB0:DATA7 EMAC0:TX_CLK EMAC0:TX_CTL EMAC0:RX_CLK EMAC0:RX_CTL EMAC0:TXD0 EMAC0:TXD1 EMAC0:RXD0 EMAC0:RXD1 EMAC0:TXD2 EMAC0:TXD3 EMAC0:RXD2 EMAC0:RXD3 SPIM1:CLK SPIM1:MOSI SPIM1:MISO SPIM1:SS0_N SPIM1:SS1_N GPIO NONE NONE NONE NONE MDIO0:MDIO MDIO0:MDC I2C1:SDA I2C1:SCL GPIO TRACE:CLK GPIO GPIO NONE GPIO TRACE:D0 TRACE:D1 TRACE:D2 TRACE:D3
+Length of argument: 1
+Instance Name: a10_hps
+Param:[BSEL_EN]
+Value:[0]
+2025.10.29.22:50:50 Info: set_instance_parameter_value a10_hps BSEL_EN 0
+Param:[BSEL]
+Value:[1]
+2025.10.29.22:50:50 Info: set_instance_parameter_value a10_hps BSEL 1
+2025.10.29.22:50:50 Info: add_component emif_hps ip/qsys_top/emif_hps.ip altera_emif_a10_hps
+2025.10.29.22:50:54 Info: emif_hps: Generic Component instance footprint reloaded.
+2025.10.29.22:50:54 Info: load_component emif_hps
+Param:[PROTOCOL_ENUM]
+Value:[PROTOCOL_DDR4]
+2025.10.29.22:50:55 Info: set_component_parameter_value PROTOCOL_ENUM PROTOCOL_DDR4
+Param:[MEM_DDR4_DQ_WIDTH]
+Value:[40]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_DQ_WIDTH 40
+Param:[MEM_DDR4_ALERT_N_PLACEMENT_ENUM]
+Value:[DDR4_ALERT_N_PLACEMENT_DATA_LANES]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_ALERT_N_PLACEMENT_ENUM DDR4_ALERT_N_PLACEMENT_DATA_LANES
+Param:[MEM_DDR4_ALERT_N_DQS_GROUP]
+Value:[3]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_ALERT_N_DQS_GROUP 3
+Param:[DIAG_DDR4_SKIP_CA_LEVEL]
+Value:[1]
+2025.10.29.22:50:55 Info: set_component_parameter_value DIAG_DDR4_SKIP_CA_LEVEL 1
+Param:[MEM_DDR4_RTT_NOM_ENUM]
+Value:[DDR4_RTT_NOM_RZQ_6]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_RTT_NOM_ENUM DDR4_RTT_NOM_RZQ_6
+Param:[PHY_DDR4_USER_REF_CLK_FREQ_MHZ]
+Value:[133.333]
+2025.10.29.22:50:55 Info: set_component_parameter_value PHY_DDR4_USER_REF_CLK_FREQ_MHZ 133.333
+Param:[PHY_DDR4_DEFAULT_REF_CLK_FREQ]
+Value:[0]
+2025.10.29.22:50:55 Info: set_component_parameter_value PHY_DDR4_DEFAULT_REF_CLK_FREQ 0
+Param:[CTRL_DDR4_ECC_EN]
+Value:[1]
+2025.10.29.22:50:55 Info: set_component_parameter_value CTRL_DDR4_ECC_EN 1
+Param:[CTRL_DDR4_ECC_AUTO_CORRECTION_EN]
+Value:[1]
+2025.10.29.22:50:55 Info: set_component_parameter_value CTRL_DDR4_ECC_AUTO_CORRECTION_EN 1
+Param:[CTRL_DDR4_MMR_EN]
+Value:[1]
+2025.10.29.22:50:55 Info: set_component_parameter_value CTRL_DDR4_MMR_EN 1
+Param:[PHY_DDR4_DEFAULT_IO]
+Value:[0]
+2025.10.29.22:50:55 Info: set_component_parameter_value PHY_DDR4_DEFAULT_IO 0
+Param:[PHY_DDR4_USER_DATA_IN_MODE_ENUM]
+Value:[IN_OCT_60_CAL]
+2025.10.29.22:50:55 Info: set_component_parameter_value PHY_DDR4_USER_DATA_IN_MODE_ENUM IN_OCT_60_CAL
+Param:[PHY_DDR4_MEM_CLK_FREQ_MHZ]
+Value:[1066.667]
+2025.10.29.22:50:55 Info: set_component_parameter_value PHY_DDR4_MEM_CLK_FREQ_MHZ 1066.667
+Param:[MEM_DDR4_TCL]
+Value:[20]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_TCL 20
+Param:[MEM_DDR4_WTCL]
+Value:[16]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_WTCL 16
+Param:[MEM_DDR4_ROW_ADDR_WIDTH]
+Value:[15]
+2025.10.29.22:50:55 Info: set_component_parameter_value MEM_DDR4_ROW_ADDR_WIDTH 15
+2025.10.29.22:50:55 Info: save_component 
+2025.10.29.22:50:56 Info: set_validation_property AUTOMATIC_VALIDATION false
+Length of argument: 1
+Instance Name: emif_hps
+2025.10.29.22:50:56 Info: load_component emif_hps
+Param:[PHY_DDR4_HPS_ENABLE_EARLY_RELEASE]
+Value:[1]
+2025.10.29.22:50:58 Info: set_component_parameter_value PHY_DDR4_HPS_ENABLE_EARLY_RELEASE 1
+2025.10.29.22:50:58 Info: save_component 
+Length of argument: 1
+Instance Name: emif_hps
+2025.10.29.22:50:58 Info: load_component emif_hps
+Param:[MEM_DDR4_SPEEDBIN_ENUM]
+Value:[DDR4_SPEEDBIN_2666]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_SPEEDBIN_ENUM DDR4_SPEEDBIN_2666
+Param:[MEM_DDR4_BANK_GROUP_WIDTH]
+Value:[1]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_BANK_GROUP_WIDTH 1
+Param:[MEM_DDR4_TIS_PS]
+Value:[55]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TIS_PS 55
+Param:[MEM_DDR4_TIH_PS]
+Value:[80]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TIH_PS 80
+Param:[MEM_DDR4_TDIVW_TOTAL_UI]
+Value:[0.22]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDIVW_TOTAL_UI 0.22
+Param:[MEM_DDR4_VDIVW_TOTAL]
+Value:[120]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_VDIVW_TOTAL 120
+Param:[MEM_DDR4_TDQSQ_UI]
+Value:[0.18]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDQSQ_UI 0.18
+Param:[MEM_DDR4_TQH_UI]
+Value:[0.74]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TQH_UI 0.74
+Param:[MEM_DDR4_TDVWP_UI]
+Value:[0.72]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDVWP_UI 0.72
+Param:[MEM_DDR4_TDQSCK_PS]
+Value:[170]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDQSCK_PS 170
+Param:[MEM_DDR4_TDQSS_CYC]
+Value:[0.27]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDQSS_CYC 0.27
+Param:[MEM_DDR4_TQSH_CYC]
+Value:[0.4]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TQSH_CYC 0.4
+Param:[MEM_DDR4_TDSH_CYC]
+Value:[0.18]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDSH_CYC 0.18
+Param:[MEM_DDR4_TDSS_CYC]
+Value:[0.18]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TDSS_CYC 0.18
+Param:[MEM_DDR4_TWLS_CYC]
+Value:[0.13]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TWLS_CYC 0.13
+Param:[MEM_DDR4_TWLH_CYC]
+Value:[0.13]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TWLH_CYC 0.13
+Param:[MEM_DDR4_TINIT_US]
+Value:[500]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TINIT_US 500
+Param:[MEM_DDR4_TMRD_CK_CYC]
+Value:[8]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TMRD_CK_CYC 8
+Param:[MEM_DDR4_TRAS_NS]
+Value:[32]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TRAS_NS 32
+Param:[MEM_DDR4_TRCD_NS]
+Value:[14.25]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TRCD_NS 14.25
+Param:[MEM_DDR4_TRP_NS]
+Value:[14.25]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TRP_NS 14.25
+Param:[MEM_DDR4_TWR_NS]
+Value:[15]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TWR_NS 15
+Param:[MEM_DDR4_TRRD_S_CYC]
+Value:[7]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TRRD_S_CYC 7
+Param:[MEM_DDR4_TRRD_L_CYC]
+Value:[8]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TRRD_L_CYC 8
+Param:[MEM_DDR4_TFAW_NS]
+Value:[30.0]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TFAW_NS 30.0
+Param:[MEM_DDR4_TCCD_S_CYC]
+Value:[4]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TCCD_S_CYC 4
+Param:[MEM_DDR4_TCCD_L_CYC]
+Value:[6]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TCCD_L_CYC 6
+Param:[MEM_DDR4_TWTR_S_CYC]
+Value:[3]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TWTR_S_CYC 3
+Param:[MEM_DDR4_TWTR_L_CYC]
+Value:[9]
+2025.10.29.22:51:00 Info: set_component_parameter_value MEM_DDR4_TWTR_L_CYC 9
+Param:[PHY_DDR4_USER_AC_IO_STD_ENUM]
+Value:[IO_STD_SSTL_12]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_AC_IO_STD_ENUM IO_STD_SSTL_12
+Param:[PHY_DDR4_USER_CK_IO_STD_ENUM]
+Value:[IO_STD_SSTL_12]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_CK_IO_STD_ENUM IO_STD_SSTL_12
+Param:[PHY_DDR4_USER_DATA_IO_STD_ENUM]
+Value:[IO_STD_POD_12]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_DATA_IO_STD_ENUM IO_STD_POD_12
+Param:[PHY_DDR4_USER_AC_MODE_ENUM]
+Value:[OUT_OCT_40_CAL]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_AC_MODE_ENUM OUT_OCT_40_CAL
+Param:[PHY_DDR4_USER_CK_MODE_ENUM]
+Value:[OUT_OCT_40_CAL]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_CK_MODE_ENUM OUT_OCT_40_CAL
+Param:[PHY_DDR4_USER_DATA_OUT_MODE_ENUM]
+Value:[OUT_OCT_34_CAL]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_DATA_OUT_MODE_ENUM OUT_OCT_34_CAL
+Param:[PHY_DDR4_USER_PLL_REF_CLK_IO_STD_ENUM]
+Value:[IO_STD_LVDS]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_PLL_REF_CLK_IO_STD_ENUM IO_STD_LVDS
+Param:[PHY_DDR4_USER_RZQ_IO_STD_ENUM]
+Value:[IO_STD_CMOS_12]
+2025.10.29.22:51:00 Info: set_component_parameter_value PHY_DDR4_USER_RZQ_IO_STD_ENUM IO_STD_CMOS_12
+2025.10.29.22:51:00 Info: save_component 
+Length of argument: 1
+Instance Name: emif_hps
+2025.10.29.22:51:00 Info: load_component emif_hps
+Param:[MEM_DDR4_TRFC_NS]
+Value:[350.0]
+2025.10.29.22:51:02 Info: set_component_parameter_value MEM_DDR4_TRFC_NS 350.0
+Param:[MEM_DDR4_TREFI_US]
+Value:[7.8]
+2025.10.29.22:51:02 Info: set_component_parameter_value MEM_DDR4_TREFI_US 7.8
+2025.10.29.22:51:02 Info: save_component 
+2025.10.29.22:51:02 Info: set_validation_property AUTOMATIC_VALIDATION true
+2025.10.29.22:51:02 Info: add_component hps_m ip/qsys_top/hps_m.ip altera_jtag_avalon_master
+2025.10.29.22:51:02 Info: hps_m: Generic Component instance footprint reloaded.
+2025.10.29.22:51:02 Info: load_component hps_m
+2025.10.29.22:51:02 Info: save_component 
+2025.10.29.22:51:02 Info: add_component fpga_m ip/qsys_top/fpga_m.ip altera_jtag_avalon_master
+2025.10.29.22:51:03 Info: fpga_m: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component fpga_m
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component pb_lwh2f ip/qsys_top/pb_lwh2f.ip altera_avalon_mm_bridge
+2025.10.29.22:51:03 Info: pb_lwh2f: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component pb_lwh2f
+Param:[DATA_WIDTH]
+Value:[32]
+2025.10.29.22:51:03 Info: set_component_parameter_value DATA_WIDTH 32
+Param:[ADDRESS_WIDTH]
+Value:[20]
+2025.10.29.22:51:03 Info: set_component_parameter_value ADDRESS_WIDTH 20
+Param:[USE_AUTO_ADDRESS_WIDTH]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value USE_AUTO_ADDRESS_WIDTH 1
+Param:[MAX_BURST_SIZE]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value MAX_BURST_SIZE 1
+Param:[MAX_PENDING_RESPONSES]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value MAX_PENDING_RESPONSES 1
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component sys_id ip/qsys_top/sys_id.ip altera_avalon_sysid_qsys
+2025.10.29.22:51:03 Info: sys_id: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component sys_id
+Param:[id]
+Value:[-1073199092]
+2025.10.29.22:51:03 Info: set_component_parameter_value id -1073199092
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component led_pio ip/qsys_top/led_pio.ip altera_avalon_pio
+2025.10.29.22:51:03 Info: led_pio: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component led_pio
+Param:[direction]
+Value:[InOut]
+2025.10.29.22:51:03 Info: set_component_parameter_value direction InOut
+Param:[resetValue]
+Value:[0.0]
+2025.10.29.22:51:03 Info: set_component_parameter_value resetValue 0.0
+Param:[width]
+Value:[4]
+2025.10.29.22:51:03 Info: set_component_parameter_value width 4
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component button_pio ip/qsys_top/button_pio.ip altera_avalon_pio
+2025.10.29.22:51:03 Info: button_pio: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component button_pio
+Param:[bitClearingEdgeCapReg]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value bitClearingEdgeCapReg 1
+Param:[captureEdge]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value captureEdge 1
+Param:[direction]
+Value:[Input]
+2025.10.29.22:51:03 Info: set_component_parameter_value direction Input
+Param:[edgeType]
+Value:[FALLING]
+2025.10.29.22:51:03 Info: set_component_parameter_value edgeType FALLING
+Param:[generateIRQ]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value generateIRQ 1
+Param:[irqType]
+Value:[EDGE]
+2025.10.29.22:51:03 Info: set_component_parameter_value irqType EDGE
+Param:[resetValue]
+Value:[0.0]
+2025.10.29.22:51:03 Info: set_component_parameter_value resetValue 0.0
+Param:[width]
+Value:[4]
+2025.10.29.22:51:03 Info: set_component_parameter_value width 4
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component dipsw_pio ip/qsys_top/dipsw_pio.ip altera_avalon_pio
+2025.10.29.22:51:03 Info: dipsw_pio: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component dipsw_pio
+Param:[bitClearingEdgeCapReg]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value bitClearingEdgeCapReg 1
+Param:[captureEdge]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value captureEdge 1
+Param:[direction]
+Value:[Input]
+2025.10.29.22:51:03 Info: set_component_parameter_value direction Input
+Param:[edgeType]
+Value:[ANY]
+2025.10.29.22:51:03 Info: set_component_parameter_value edgeType ANY
+Param:[generateIRQ]
+Value:[1]
+2025.10.29.22:51:03 Info: set_component_parameter_value generateIRQ 1
+Param:[irqType]
+Value:[EDGE]
+2025.10.29.22:51:03 Info: set_component_parameter_value irqType EDGE
+Param:[resetValue]
+Value:[0.0]
+2025.10.29.22:51:03 Info: set_component_parameter_value resetValue 0.0
+Param:[width]
+Value:[4]
+2025.10.29.22:51:03 Info: set_component_parameter_value width 4
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component f2sdram2_m ip/qsys_top/f2sdram2_m.ip altera_jtag_avalon_master
+2025.10.29.22:51:03 Info: f2sdram2_m: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component f2sdram2_m
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component f2sdram0_m ip/qsys_top/f2sdram0_m.ip altera_jtag_avalon_master
+2025.10.29.22:51:03 Info: f2sdram0_m: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component f2sdram0_m
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_component ILC ip/qsys_top/ILC.ip interrupt_latency_counter
+2025.10.29.22:51:03 Info: ILC: Generic Component instance footprint reloaded.
+2025.10.29.22:51:03 Info: load_component ILC
+Param:[INTR_TYPE]
+Value:[0]
+2025.10.29.22:51:03 Info: set_component_parameter_value INTR_TYPE 0
+2025.10.29.22:51:03 Info: save_component 
+Length of argument: 1
+Instance Name: ILC
+2025.10.29.22:51:03 Info: load_component ILC
+Param:[IRQ_PORT_CNT]
+Value:[2]
+2025.10.29.22:51:03 Info: set_component_parameter_value IRQ_PORT_CNT 2
+2025.10.29.22:51:03 Info: save_component 
+2025.10.29.22:51:03 Info: add_connection clk_100.out_clk rst_in.clk
+2025.10.29.22:51:03 Info: add_connection clk_100.out_clk a10_hps.f2sdram2_clock
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk f2sdram2_m.clk
+2025.10.29.22:51:04 Info: add_connection rst_in.out_reset f2sdram2_m.clk_reset
+2025.10.29.22:51:04 Info: add_connection a10_hps.h2f_reset f2sdram2_m.clk_reset
+2025.10.29.22:51:04 Info: add_connection f2sdram2_m.master a10_hps.f2sdram2_data
+2025.10.29.22:51:04 Info: set_connection_parameter_value f2sdram2_m.master/a10_hps.f2sdram2_data arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value f2sdram2_m.master/a10_hps.f2sdram2_data baseAddress 0x0000
+2025.10.29.22:51:04 Info: set_connection_parameter_value f2sdram2_m.master/a10_hps.f2sdram2_data defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk ocm_0.clk1
+2025.10.29.22:51:04 Info: add_connection rst_in.out_reset ocm_0.reset1
+2025.10.29.22:51:04 Info: add_connection pb_lwh2f.m0 ILC.avalon_slave
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/ILC.avalon_slave arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/ILC.avalon_slave baseAddress 0x0100
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/ILC.avalon_slave defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection pb_lwh2f.m0 sys_id.control_slave
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/sys_id.control_slave arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/sys_id.control_slave baseAddress 0x0000
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/sys_id.control_slave defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection a10_hps.h2f_lw_axi_master pb_lwh2f.s0
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_lw_axi_master/pb_lwh2f.s0 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_lw_axi_master/pb_lwh2f.s0 baseAddress 0x0000
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_lw_axi_master/pb_lwh2f.s0 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection pb_lwh2f.m0 led_pio.s1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/led_pio.s1 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/led_pio.s1 baseAddress 0x0010
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/led_pio.s1 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection pb_lwh2f.m0 button_pio.s1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/button_pio.s1 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/button_pio.s1 baseAddress 0x0020
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/button_pio.s1 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection pb_lwh2f.m0 dipsw_pio.s1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/dipsw_pio.s1 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/dipsw_pio.s1 baseAddress 0x0030
+2025.10.29.22:51:04 Info: set_connection_parameter_value pb_lwh2f.m0/dipsw_pio.s1 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection a10_hps.h2f_axi_master ocm_0.s1
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_axi_master/ocm_0.s1 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_axi_master/ocm_0.s1 baseAddress 0x0000
+2025.10.29.22:51:04 Info: set_connection_parameter_value a10_hps.h2f_axi_master/ocm_0.s1 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection hps_m.master a10_hps.f2h_axi_slave
+2025.10.29.22:51:04 Info: set_connection_parameter_value hps_m.master/a10_hps.f2h_axi_slave arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value hps_m.master/a10_hps.f2h_axi_slave baseAddress 0x0000
+2025.10.29.22:51:04 Info: set_connection_parameter_value hps_m.master/a10_hps.f2h_axi_slave defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection fpga_m.master pb_lwh2f.s0
+2025.10.29.22:51:04 Info: set_connection_parameter_value fpga_m.master/pb_lwh2f.s0 arbitrationPriority 1
+2025.10.29.22:51:04 Info: set_connection_parameter_value fpga_m.master/pb_lwh2f.s0 baseAddress 0x00000
+2025.10.29.22:51:04 Info: set_connection_parameter_value fpga_m.master/pb_lwh2f.s0 defaultConnection 0
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk hps_m.clk
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk rst_bdg.clk
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk fpga_m.clk
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk pb_lwh2f.clk
+2025.10.29.22:51:04 Info: add_connection clk_100.out_clk a10_hps.h2f_lw_axi_clock
+2025.10.29.22:51:06 Info: add_connection clk_100.out_clk a10_hps.f2h_axi_clock
+2025.10.29.22:51:07 Info: add_connection clk_100.out_clk sys_id.clk
+2025.10.29.22:51:07 Info: add_connection clk_100.out_clk led_pio.clk
+2025.10.29.22:51:07 Info: add_connection clk_100.out_clk button_pio.clk
+2025.10.29.22:51:07 Info: add_connection clk_100.out_clk dipsw_pio.clk
+2025.10.29.22:51:07 Info: add_connection clk_100.out_clk ILC.clk
+2025.10.29.22:51:07 Info: add_connection a10_hps.emif emif_hps.hps_emif_conduit_end
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end endPort 
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end endPortLSB 0
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end startPort 
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end startPortLSB 0
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end width 0
+2025.10.29.22:51:07 Info: add_connection a10_hps.f2h_irq0 button_pio.irq
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.f2h_irq0/button_pio.irq irqNumber 0
+2025.10.29.22:51:07 Info: add_connection a10_hps.f2h_irq0 dipsw_pio.irq
+2025.10.29.22:51:07 Info: set_connection_parameter_value a10_hps.f2h_irq0/dipsw_pio.irq irqNumber 1
+2025.10.29.22:51:07 Info: add_connection ILC.irq button_pio.irq
+2025.10.29.22:51:07 Info: set_connection_parameter_value ILC.irq/button_pio.irq irqNumber 0
+2025.10.29.22:51:07 Info: add_connection ILC.irq dipsw_pio.irq
+2025.10.29.22:51:07 Info: set_connection_parameter_value ILC.irq/dipsw_pio.irq irqNumber 1
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset a10_hps.f2h_axi_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset a10_hps.f2sdram0_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset a10_hps.f2sdram2_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset a10_hps.h2f_axi_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset a10_hps.h2f_lw_axi_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset hps_m.clk_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset fpga_m.clk_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset rst_bdg.in_reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset pb_lwh2f.reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset sys_id.reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset led_pio.reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset button_pio.reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset dipsw_pio.reset
+2025.10.29.22:51:07 Info: add_connection rst_in.out_reset ILC.reset_n
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset a10_hps.f2h_axi_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset a10_hps.f2sdram0_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset a10_hps.f2sdram2_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset a10_hps.h2f_axi_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset a10_hps.h2f_lw_axi_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset hps_m.clk_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset fpga_m.clk_reset
+2025.10.29.22:51:07 Info: add_connection a10_hps.h2f_reset rst_bdg.in_reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset pb_lwh2f.reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset sys_id.reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset led_pio.reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset button_pio.reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset dipsw_pio.reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset ocm_0.reset1
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset ILC.reset_n
+2025.10.29.22:51:08 Info: add_connection rst_in.out_reset emif_hps.global_reset_reset_sink
+2025.10.29.22:51:08 Info: add_connection clk_100.out_clk issp_0.source_clk
+2025.10.29.22:51:08 Info: add_connection clk_100.out_clk a10_hps.f2sdram0_clock
+2025.10.29.22:51:08 Info: add_connection clk_100.out_clk f2sdram0_m.clk
+2025.10.29.22:51:08 Info: add_connection rst_in.out_reset f2sdram0_m.clk_reset
+2025.10.29.22:51:08 Info: add_connection a10_hps.h2f_reset f2sdram0_m.clk_reset
+2025.10.29.22:51:08 Info: add_connection f2sdram0_m.master a10_hps.f2sdram0_data
+2025.10.29.22:51:08 Info: set_connection_parameter_value f2sdram0_m.master/a10_hps.f2sdram0_data arbitrationPriority 1
+2025.10.29.22:51:08 Info: set_connection_parameter_value f2sdram0_m.master/a10_hps.f2sdram0_data baseAddress 0x0000
+2025.10.29.22:51:08 Info: set_connection_parameter_value f2sdram0_m.master/a10_hps.f2sdram0_data defaultConnection 0
+2025.10.29.22:51:08 Info: add_connection clk_100.out_clk a10_hps.h2f_axi_clock
+2025.10.29.22:51:10 Info: add_interface clk_100 clock sink
+2025.10.29.22:51:10 Info: set_interface_property clk_100 EXPORT_OF clk_100.in_clk
+2025.10.29.22:51:10 Info: add_interface reset reset sink
+2025.10.29.22:51:10 Info: set_interface_property reset EXPORT_OF rst_in.in_reset
+2025.10.29.22:51:10 Info: add_interface emif_a10_hps_0_mem_conduit_end conduit end
+2025.10.29.22:51:10 Info: set_interface_property emif_a10_hps_0_mem_conduit_end EXPORT_OF emif_hps.mem_conduit_end
+2025.10.29.22:51:10 Info: add_interface emif_a10_hps_0_oct_conduit_end conduit end
+2025.10.29.22:51:10 Info: set_interface_property emif_a10_hps_0_oct_conduit_end EXPORT_OF emif_hps.oct_conduit_end
+2025.10.29.22:51:10 Info: add_interface emif_a10_hps_0_pll_ref_clk_clock_sink clock sink
+2025.10.29.22:51:10 Info: set_interface_property emif_a10_hps_0_pll_ref_clk_clock_sink EXPORT_OF emif_hps.pll_ref_clk_clock_sink
+2025.10.29.22:51:10 Info: add_interface f2h_cold_reset_req reset sink
+2025.10.29.22:51:10 Info: set_interface_property f2h_cold_reset_req EXPORT_OF a10_hps.f2h_cold_reset_req
+2025.10.29.22:51:10 Info: add_interface f2h_debug_reset_req reset sink
+2025.10.29.22:51:10 Info: set_interface_property f2h_debug_reset_req EXPORT_OF a10_hps.f2h_debug_reset_req
+2025.10.29.22:51:10 Info: add_interface f2h_stm_hw_events conduit end
+2025.10.29.22:51:10 Info: set_interface_property f2h_stm_hw_events EXPORT_OF a10_hps.f2h_stm_hw_events
+2025.10.29.22:51:10 Info: add_interface f2h_warm_reset_req reset sink
+2025.10.29.22:51:10 Info: set_interface_property f2h_warm_reset_req EXPORT_OF a10_hps.f2h_warm_reset_req
+2025.10.29.22:51:10 Info: add_interface hps_fpga_reset reset source
+2025.10.29.22:51:10 Info: set_interface_property hps_fpga_reset EXPORT_OF rst_bdg.out_reset
+2025.10.29.22:51:10 Info: add_interface hps_io conduit end
+2025.10.29.22:51:10 Info: set_interface_property hps_io EXPORT_OF a10_hps.hps_io
+2025.10.29.22:51:10 Info: add_interface pio_button_external_connection conduit end
+2025.10.29.22:51:10 Info: set_interface_property pio_button_external_connection EXPORT_OF button_pio.external_connection
+2025.10.29.22:51:10 Info: add_interface pio_dipsw_external_connection conduit end
+2025.10.29.22:51:10 Info: set_interface_property pio_dipsw_external_connection EXPORT_OF dipsw_pio.external_connection
+2025.10.29.22:51:10 Info: add_interface pio_led_external_connection conduit end
+2025.10.29.22:51:10 Info: set_interface_property pio_led_external_connection EXPORT_OF led_pio.external_connection
+2025.10.29.22:51:10 Info: add_interface issp_hps_resets conduit end
+2025.10.29.22:51:10 Info: set_interface_property issp_hps_resets EXPORT_OF issp_0.sources
+2025.10.29.22:51:10 Info: set_interconnect_requirement $system qsys_mm.clockCrossingAdapter AUTO
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: set_interconnect_requirement $system qsys_mm.maxAdditionalLatency 4
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: set_interconnect_requirement $system qsys_mm.burstAdapterImplementation GENERIC_CONVERTER
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: set_interconnect_requirement $system qsys_mm.enableEccProtection FALSE
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: set_interconnect_requirement $system qsys_mm.insertDefaultSlave FALSE
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: set_interconnect_requirement hps_m.master qsys_mm.security SECURE
+2025.10.29.22:51:10 Warning: Command set_interconnect_requirement deprecated from version 19.1.Please use set_domain_assignment, set_interface_assignment, set_postadaptation_assignment commands from package 19.1;
+2025.10.29.22:51:10 Info: sync_sysinfo_parameters 
+2025.10.29.22:51:10 Info: Synchronizing System Information for clk_100
+2025.10.29.22:51:10 Info: Synchronizing System Information for rst_in
+2025.10.29.22:51:10 Info: Synchronizing System Information for rst_bdg
+2025.10.29.22:51:10 Info: Synchronizing System Information for ocm_0
+2025.10.29.22:51:10 Info: Synchronizing System Information for issp_0
+2025.10.29.22:51:12 Info: Synchronizing System Information for emif_hps
+2025.10.29.22:51:12 Info: Synchronizing System Information for hps_m
+2025.10.29.22:51:12 Info: Synchronizing System Information for fpga_m
+2025.10.29.22:51:12 Info: Synchronizing System Information for pb_lwh2f
+2025.10.29.22:51:12 Info: Synchronizing System Information for sys_id
+2025.10.29.22:51:12 Info: Synchronizing System Information for led_pio
+2025.10.29.22:51:12 Info: Synchronizing System Information for button_pio
+2025.10.29.22:51:12 Info: Synchronizing System Information for dipsw_pio
+2025.10.29.22:51:12 Info: Synchronizing System Information for f2sdram2_m
+2025.10.29.22:51:12 Info: Synchronizing System Information for f2sdram0_m
+2025.10.29.22:51:12 Info: Synchronizing System Information for ILC
+2025.10.29.22:51:12 Info: save_system qsys_top.qsys
+2025.10.29.22:51:13 Info: Info: All modules have been converted to Generic Components.
+2025.10.29.22:51:13 Info: sync_sysinfo_parameters 
+2025.10.29.22:51:13 Info: Synchronizing System Information for clk_100
+2025.10.29.22:51:13 Info: Synchronizing System Information for rst_in
+2025.10.29.22:51:13 Info: Synchronizing System Information for rst_bdg
+2025.10.29.22:51:13 Info: Synchronizing System Information for ocm_0
+2025.10.29.22:51:13 Info: Synchronizing System Information for issp_0
+2025.10.29.22:51:13 Info: Synchronizing System Information for emif_hps
+2025.10.29.22:51:13 Info: Synchronizing System Information for hps_m
+2025.10.29.22:51:13 Info: Synchronizing System Information for fpga_m
+2025.10.29.22:51:13 Info: Synchronizing System Information for pb_lwh2f
+2025.10.29.22:51:13 Info: Synchronizing System Information for sys_id
+2025.10.29.22:51:13 Info: Synchronizing System Information for led_pio
+2025.10.29.22:51:13 Info: Synchronizing System Information for button_pio
+2025.10.29.22:51:13 Info: Synchronizing System Information for dipsw_pio
+2025.10.29.22:51:13 Info: Synchronizing System Information for f2sdram2_m
+2025.10.29.22:51:13 Info: Synchronizing System Information for f2sdram0_m
+2025.10.29.22:51:13 Info: Synchronizing System Information for ILC
+make[1]: Leaving directory '/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro'

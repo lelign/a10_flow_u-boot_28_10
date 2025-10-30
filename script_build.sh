@@ -157,18 +157,18 @@ fi
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 if [ $compile != "n" ]; then
 	mac=$(ifconfig | grep ether | cut -d " " -f 10)
-	if [ $mac != "90:2b:34:58:86:b0" ]; then
-        	echo -e "\n\t\t\tнеобходиммо изменить MAC сетевой карты, команды:" | tee -a $home/log
-		sudo ip link set dev enp2s0 down
-		sudo ip link set dev enp2s0 address 90:2b:34:58:86:b0
-		sudo ip link set dev enp2s0 up
-		mac=$(ifconfig | grep ether | cut -d " " -f 10)
-	fi
+	#if [ $mac != "90:2b:34:58:86:b0" ]; then
+    #    	echo -e "\n\t\t\tнеобходиммо изменить MAC сетевой карты, команды:" | tee -a $home/log
+	#	sudo ip link set dev enp2s0 down
+	#	sudo ip link set dev enp2s0 address 90:2b:34:58:86:b0
+	#	sudo ip link set dev enp2s0 up
+	#	mac=$(ifconfig | grep ether | cut -d " " -f 10)
+	#fi
 	q_chek=$(find . -maxdepth 1 -iname "*.q*" | wc -l)
 #	if [ $q_chek -ge 4 ]; then
 	if [ $q_chek -ge 3 ]; then # for ar_provi
 		clear
-		echo -e "\n\t\t\tУстановлен MAC = $mac" | tee -a $home/log
+		#echo -e "\n\t\t\tУстановлен MAC = $mac" | tee -a $home/log
 		echo -e "\n\t\t\tчто-то изменить после генерации? y/n"
  		read change_after_gen
 		if [ $change_after_gen == "y" ]; then
@@ -204,7 +204,7 @@ if [ $compile != "n" ]; then
 			if [ -f "../../gsrd_build.log" ]; then
 				progress=$(cat ../../gsrd_build.log)
 				echo -e "\t\t\tготово $(( ${#progress}*100/1060000 ))%"
-				echo -e "\tlog tail <5> : $(cat ../../gsrd_gen.log | tail -5)"
+				echo -e "\tlog tail <5> :\n $(cat ../../gsrd_gen.log | tail -5)"
 			fi
 
 			if [ $(pgrep -u $(whoami) -l | grep "quartus*" -c) == $quartus_pids ]; then
@@ -216,7 +216,7 @@ if [ $compile != "n" ]; then
 		done
 		echo -e "\n\t\t\tСборка проекта, лог пишем в gsrd_build.log\n\t\t\t<make rbf>"
 		echo -e "\t\t\tготово 100%" | tee -a $home/log
-		clear
+		#clear
 		############# save build
 		if [ ! -d "../../$title" ]; then
 			mkdir ../../$title
@@ -229,6 +229,8 @@ if [ $compile != "n" ]; then
 		sleep 10
 	fi
 fi
+
+exit
 ############# u_boot ################ Arria 10 SoC - Boot from SD Card
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 if [ ! -d "../../u-boot-socfpga" ]; then
