@@ -54,7 +54,7 @@ fi
 
 
 if [ -d "$QUARTUS_ROOTDIR" ]; then
-	export QUARTUS_ROOTDIR=/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus
+	export QUARTUS_ROOTDIR=$(realpath $QUARTUS_ROOTDIR)
 	export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/linux64:$QUARTUS_ROOTDIR/../qsys/bin:$PATH
 else
 	echo -e "\tQUARTUS dir not found, check is disk partion with QUARTUS mounted" | tee -a $home/log
