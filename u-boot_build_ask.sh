@@ -2,7 +2,7 @@
 ############# u_boot ################ Arria 10 SoC - Boot from SD Card
 #some changes 27_10
 home=$('pwd')
-title=$(date "+%d-%B_%H_%M_%S_via_u-boot")
+title=$(date "+%d-%B_%H_%M_%S_ask")
 rm -rf $home/log
 ########## check compiler
 compiler="./gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf"
