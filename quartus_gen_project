@@ -101,6 +101,7 @@ title=$(date "+%d-%m_%H_%M_%S"_"$name")
 			echo "\t\t\t go!!!"
 		fi
 	fi
+# some change
 
 if [ $gen_gsrd != "n" ]; then
 	clear
