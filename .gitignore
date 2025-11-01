@@ -21,3 +21,6 @@ u-boot-socfpga_test-bootloader/
 u-boot_master/
 try.img
 try_to_break_sd_gold
+qsrd_build.log
+gsrd_gen.log
+quartus_gsrd_projects/

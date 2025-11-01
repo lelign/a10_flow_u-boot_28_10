@@ -1,4 +1,4 @@
-.#!/bin/bash
+#!/bin/bash
 home=$('pwd')
 rm -rf $home/log
 ########## check compiler

@@ -1,0 +1,24 @@
+		generated 30-10_19_44_05_first
+qsys_top.qsys 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/qsys_top.qsys
+ghrd_10as066n2.db_info 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/qdb/_compiler/ghrd_10as066n2/_flat/21.4.0/legacy/1/ghrd_10as066n2.db_info
+ghrd_10as066n2.qpf 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ghrd_10as066n2.qpf
+ghrd_a10_top.v 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ghrd_a10_top.v
+qsys_top.qsys.legacy 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/qsys_top.qsys.legacy
+fpga_m.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/fpga_m.ip
+led_pio.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/led_pio.ip
+button_pio.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/button_pio.ip
+sys_id.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/sys_id.ip
+f2sdram0_m.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/f2sdram0_m.ip
+emif_hps.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/emif_hps.ip
+rst_bdg.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/rst_bdg.ip
+clk_100.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/clk_100.ip
+ILC.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/ILC.ip
+f2sdram2_m.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/f2sdram2_m.ip
+issp_0.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/issp_0.ip
+dipsw_pio.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/dipsw_pio.ip
+rst_in.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/rst_in.ip
+hps_m.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/hps_m.ip
+pb_lwh2f.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/pb_lwh2f.ip
+ocm_0.ip 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ip/qsys_top/ocm_0.ip
+ghrd_10as066n2.qsf 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/ghrd_10as066n2.qsf
+qsys_generate_qsys 		/media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/a10_example.sdmmc/a10_soc_devkit_ghrd_pro/qsys_generate_qsys
