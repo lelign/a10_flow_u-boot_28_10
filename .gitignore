@@ -24,3 +24,4 @@ try_to_break_sd_gold
 qsrd_build.log
 gsrd_gen.log
 quartus_gsrd_projects/
+.fast_uboot_input_files
