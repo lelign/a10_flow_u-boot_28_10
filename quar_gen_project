@@ -33,7 +33,26 @@ else
 	echo -e "\t$a10_example_sdmmc direcitory doesn't exist, \n\tdo build manually" | tee -a $home/log
 	exit
 fi
-QUARTUS_ROOTDIR=/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus
+# QUARTUS_ROOTDIR=/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus
+
+
+QUARTUS_ROOTDIR=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
+if [ ! -d "$QUARTUS_ROOTDIR" ]; then
+	QUARTUS_ROOTDIR=$(find /home/$(whoami)/Quartus/ -maxdepth 3 -type d -name "quartus" | grep "Quartus_pro_21_4/quartus")
+	if [ ! -d "$QUARTUS_ROOTDIR" ]; then
+		echo -e "Quartus not found!!!"
+		exit
+	fi
+fi  
+
+
+
+
+
+
+
+
+
 if [ -d "$QUARTUS_ROOTDIR" ]; then
 	export QUARTUS_ROOTDIR=/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus
 	export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/linux64:$QUARTUS_ROOTDIR/../qsys/bin:$PATH
@@ -92,7 +111,7 @@ if [ $cl_ean != "n" ]; then
 fi
 title=$(date "+%d-%m_%H_%M_%S"_"$name")
 
-	echo -e "что-то изменить после очистки? y/n"
+	echo -e "\n\tчто-то изменить после очистки? y/n"
  	read change_after_clean
 	if [ $change_after_clean == "y" ]; then
 		echo -e "продолжим? y/n"
