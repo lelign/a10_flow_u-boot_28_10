@@ -1,6 +1,6 @@
 #!/bin/bash
 ############# u_boot ################ Arria 10 SoC - Boot from SD Card
-#some changes 27_10
+#some changes 01_11
 home=$('pwd')
 title=$(date "+%d-%B_%H_%M_%S_via_u-boot")
 rm -rf $home/log
