@@ -1,6 +1,6 @@
 #!/bin/bash
 #echo -e "\n"
-pecho -e "\n\tПишем образ на SD карту? y/n"
+echo -e "\n\tПишем образ на SD карту? y/n"
 read continue
 if [ $continue == "y" ]; then
 	#echo -e "\n\tEnter full path to sd card image"
