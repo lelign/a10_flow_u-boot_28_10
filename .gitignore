@@ -27,3 +27,10 @@ quartus_gsrd_projects/
 .fast_uboot_input_files
 u-boot-socfpga_v2025.07_native/
 moved_from_u-boot/
+source_gsrd_u-boot/
+u_boot_ver/
+u_boot_ver
+gsrd_hps_isw_handoff
+gsrd_output_files
+vic_hps_isw_handoff
+vic_output_files
