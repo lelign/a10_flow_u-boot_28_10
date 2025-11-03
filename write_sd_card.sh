@@ -12,7 +12,7 @@ if [ true ]; then
 		while true; do
 			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
 			device_size=$(lsblk --pairs | grep "$device" | grep 'TYPE="disk"' | cut -d " " -f 4)
-            if [[ "$device" == *"sd"* ]]; then
+            if [[ "$device" == *"sd"* && -n "$device_size" ]]; then
 				echo -e "\n\tfound device dev/$device $device_size"
 				break
 			else
