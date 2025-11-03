@@ -217,7 +217,7 @@ fi
 #################################################################################################
 ######################### generate SD CARD IMAGE ################################################
 
-
+unset path_sd_card_image
 if $build; then
 	echo -e "\n\t\t\tmake image for SD card"  | tee -a $home/log
 	u_boot_dir=$`pwd`
@@ -277,6 +277,7 @@ if $build; then
     -n $title.img
 	#-n sdcard_a10.img
 fi
+unset path_sd_card_image
 if [[ -n $(file $title.img | grep -c "partition 1") && \
 	-n $(file $title_a10.img | grep -c "partition 2") && \
 	-n $(file $title.img | grep -c "partition 3") ]]; then
@@ -288,21 +289,25 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	cp $handoff_h $(pwd)
 	cp $fit_spl_fpga_itb $(pwd)
 	echo -e "Path to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
+	unset path_sd_card_image
 	path_sd_card_image=$path_sd_card/$title.img
 fi
 
 echo -e "\n\tПишем образ на SD карту? y/n"
 read continue
 if [ $continue == "y" ]; then
-	#echo -e "\n\tEnter full path to sd card image"
-	#read path_sd_card_image
+	if [ -z $path_sd_card_image ]; then
+		echo -e "\n\tEnter full path to sd card image"
+		read path_sd_card_image
+	fi
 	dev_exist=false
 	unset device
 	if [ -f $path_sd_card_image ]; then
 		while true; do
 			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
-			if [[ "$device" == *"sd"* ]]; then
-				echo -e "\tfound device dev/$device"
+			device_size=$(lsblk --pairs | grep "$device" | grep 'TYPE="disk"' | cut -d " " -f 4)
+            if [[ "$device" == *"sd"* && -n "$device_size" ]]; then
+				echo -e "\n\tfound device dev/$device $device_size"
 				break
 			else
 				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
@@ -334,13 +339,14 @@ if [ $continue == "y" ]; then
 				#echo -e "\n\t\t$path_sd_card_image"
 				echo ""
 				sudo fdisk -l | grep $device  | tee -a $home/log
-				cp $home/log $(dirname $path_sd_card_image)/used_files
+				#cp $home/log $(dirname $path_sd_card_image)/used_files
 				root_path=$(sudo fdisk -l | grep $device | grep Linux | cut -d " " -f 1)
 				rm -rf tmp_dir && mkdir tmp_dir
 				sudo mount $root_path tmp_dir
 				cp $(find $(dirname $path_sd_card_image)/used_files -maxdepth 1 -type f) ./tmp_dir/home/root -r
 				if  [ -d "./tmp_dir/home/root" ]; then
-					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root:"
+                    echo -e "\n\t SUCCESS !!!\n"
+					echo -e "\n\t использованные файлы добавлены в root область SD карты /home/root:"
 					for f in $(ls ./tmp_dir/home/root); do
 					echo -e "\t\t$f"
 					done
