@@ -36,7 +36,7 @@ a10_soc_devkit_ghrd_pro="a10_soc_devkit_ghrd_pro"
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 gsrd_dir=`pwd`
 
-u_boot_ver="u-boot-socfpga_v2025.07"
+u_boot_ver="u_boot_ver"
 if [ ! -d $home/$u_boot_ver ]; then
 #if [ ! -d "../../u-boot-socfpga" ]; then
 	echo "\tнеобходимо установить u-boot toolchan, команды:" | tee -a $home/log
@@ -53,7 +53,7 @@ fi
 cd $TOP_FOLDER/$a10_soc_devkit_ghrd_pro
 rm -rf software/bootloader && mkdir -p software/bootloader && cd software/bootloader
 #echo -e "\n\t1 текущая директория = $(pwd)"
-cp $home/$u_boot_ver u-boot-socfpga -r
+cp $(realpath $home/$u_boot_ver) u-boot-socfpga -r
 cd u-boot-socfpga
 u_boot_dir=`pwd`
 #echo -e "\n\t2 текущая директория = $(pwd)"
@@ -63,7 +63,8 @@ info="U-BOOT git версия = $(git branch)"
 echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
 read hps_isw_handoff_dir
 #hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
-if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
+hps_isw_handoff_dir="$home/$hps_isw_handoff_dir"
+if [[ -d "$hps_isw_handoff_dir" && -f "$hps_isw_handoff_dir/hps.xml" ]]; then
 	rm -rf hps_xml_link
 	ln -s $hps_isw_handoff_dir/hps.xml hps_xml_link
 	./arch/arm/mach-socfpga/qts-filter-a10.sh hps_xml_link	./arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
@@ -73,7 +74,8 @@ if [[ -d $hps_isw_handoff_dir && -f $hps_isw_handoff_dir/hps.xml ]]; then
     echo -e "\t$(file arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h) re-recorded at $re_recorded" | tee -a $home/log
     handoff_h=$(realpath arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h)
 else
-	echo -e "Error : directory hps_isw_handoff on path $hps_isw_handoff not found !"
+	echo -e "\n\tError : directory hps_isw_handoff on path $hps_isw_handoff not found !"
+	echo -e "\texit ..."
 	exit
 fi
 
@@ -83,6 +85,7 @@ clear
 export CROSS_COMPILE=arm-none-linux-gnueabihf-
 
 echo "" > $home/u-boot.log
+#echo "pwd=$(pwd)"
 make socfpga_arria10_defconfig | tee $home/u-boot.log
 
 ################### u-boot compile
@@ -122,9 +125,9 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 #echo -e "??? /home/$(whoami)/temp_output_quartus"
 echo -e "\n\t\tEnter full path to directory <output_files>"
 read output_files
-#output_files="/home/$(whoami)/temp_output_quartus"
+output_files="$home/$output_files"
 if [ -d $output_files ]; then
-    sof_file=$(find $output_files -maxdepth 1 -type f -name *.sof)
+    sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
 	if [ ! -d "$quartus" ]; then
 		quartus=$(find /home/$(whoami)/Quartus/ -maxdepth 3 -type d -name "quartus" | grep "Quartus_pro_21_4/quartus")
@@ -268,21 +271,25 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	cp $handoff_h $(pwd)
 	cp $fit_spl_fpga_itb $(pwd)
 	echo -e "Path to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
+	unset path_sd_card_image
 	path_sd_card_image=$path_sd_card/$title.img
 fi
 
 echo -e "\n\tПишем образ на SD карту? y/n"
 read continue
 if [ $continue == "y" ]; then
-	#echo -e "\n\tEnter full path to sd card image"
-	#read path_sd_card_image
+	if [ -z $path_sd_card_image ]; then
+		echo -e "\n\tEnter full path to sd card image"
+		read path_sd_card_image
+	fi
 	dev_exist=false
 	unset device
 	if [ -f $path_sd_card_image ]; then
 		while true; do
 			device=$(lsblk --pairs | grep 'RM="1"' | grep -v 'SIZE="0B"' | cut -d " " -f 1 | head -1 | cut -d '"' -f 2)
-			if [[ "$device" == *"sd"* ]]; then
-				echo -e "\tfound device dev/$device"
+			device_size=$(lsblk --pairs | grep "$device" | grep 'TYPE="disk"' | cut -d " " -f 4)
+            if [[ "$device" == *"sd"* ]]; then
+				echo -e "\n\tfound device dev/$device $device_size"
 				break
 			else
 				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
@@ -314,13 +321,14 @@ if [ $continue == "y" ]; then
 				#echo -e "\n\t\t$path_sd_card_image"
 				echo ""
 				sudo fdisk -l | grep $device  | tee -a $home/log
-				cp $home/log $(dirname $path_sd_card_image)/used_files
+				#cp $home/log $(dirname $path_sd_card_image)/used_files
 				root_path=$(sudo fdisk -l | grep $device | grep Linux | cut -d " " -f 1)
 				rm -rf tmp_dir && mkdir tmp_dir
 				sudo mount $root_path tmp_dir
 				cp $(find $(dirname $path_sd_card_image)/used_files -maxdepth 1 -type f) ./tmp_dir/home/root -r
 				if  [ -d "./tmp_dir/home/root" ]; then
-					echo -e "\n\t исползованные файлы добавлены в root область SD /home/root:"
+                    echo -e "\n\t SUCCESS !!!\n"
+					echo -e "\n\t использованные файлы добавлены в root область SD карты /home/root:"
 					for f in $(ls ./tmp_dir/home/root); do
 					echo -e "\t\t$f"
 					done
