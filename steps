@@ -125,3 +125,36 @@ tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb
 OK !!!
 ls | grep fit_spl_fpga.itb
 fit_spl_fpga.itb <= OK
+
+
+03_11
+ при исползовании ./u-boot_build_ask.sh следует вводить
+ для gsrd
+        gsrd_hps_isw_handoff
+        gsrd_output_files
+
+для vic
+        vic_hps_isw_handoff
+        vic_output_files
+
+замечено
+для старта spl необходдддимо и достаточно 
+u-boot-splx4.sfp в ROW
+fit_spl_fpga.itb в boot
+разумеется оба из одного проекта
+        minicom out:
+                U-Boot SPL 2025.07 (Nov 01 2025 - 17:55:14 +0300)                                                                       
+                DDRCAL: Success                                                                                                         
+                FPGA: Checking FPGA configuration setting ...                                                                           
+                FPGA: Start to program core bitstream ...                                                                               
+                fpgamgr_program_poll_usermode: mess from u-boot-socfpga/*/*/socfpga_arria10.c:405 Failed to enter user mode with error 0
+                FPGA: Poll usermode failed with error code -110                                                                         
+                Trying to boot from MMC1                                                                                                
+                spl_load_image_fat: error reading image u-boot.img, err - -5                                                            
+                Error: -2                                                                                                               
+                SPL: failed to boot from all boot devices                                                                               
+                ### ERROR ### Please RESET the board ###   
+
+если cp u-boot.img в boot sd карты (любой u-boot.img) то стартует как обычно
+
+
