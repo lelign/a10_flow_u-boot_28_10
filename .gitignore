@@ -26,3 +26,4 @@ gsrd_gen.log
 quartus_gsrd_projects/
 .fast_uboot_input_files
 u-boot-socfpga_v2025.07_native/
+moved_from_u-boot/
