@@ -54,7 +54,7 @@ fi
 cd $TOP_FOLDER/$a10_soc_devkit_ghrd_pro
 rm -rf software/bootloader && mkdir -p software/bootloader && cd software/bootloader
 #echo -e "\n\t1 текущая директория = $(pwd)"
-cp $home/$u_boot_ver u-boot-socfpga -r
+cp $(realpath $home/$u_boot_ver) u-boot-socfpga -r
 cd u-boot-socfpga
 u_boot_dir=`pwd`
 #echo -e "\n\t2 текущая директория = $(pwd)"
