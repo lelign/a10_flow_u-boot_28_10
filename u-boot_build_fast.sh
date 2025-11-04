@@ -185,7 +185,7 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
     ln -s $output_files/$core ghrd_10as066n2.core.rbf
     ln -s $output_files/$periph ghrd_10as066n2.periph.rbf
 
-    echo -e "\n\t\\ttart tools/mkimage\n"    
+    echo -e "\n\t\\tstart tools/mkimage\n"    
     
     tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb | tee -a $home/fit_log
     fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
@@ -212,6 +212,7 @@ if [[ -f ./fit_spl_fpga.itb && -f ./u-boot.img ]]; then
     echo -e "Проверка \n\t$(file ./fit_spl_fpga.itb)\t"$(date -r ./fit_spl_fpga.itb  +"%B-%d %H:%M:%S") | tee -a $home/log
 else
 	echo -e "\n\n\t\t\tУВЫ...\n" | tee -a $home/log
+	exit
 fi
 
 
