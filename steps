@@ -171,5 +171,8 @@ ls u-boot-socfpga_v2025.07_a10_only/arch/arm/dts
 
 через vscode закоментил все ссылки во всех Kconfig типа
 source "board..."
-source "arch/arm/mach
+source "arch/arm/mach *"
+
+кое-что забыл
+cp ~/mach//arm/dts/Makefile u-boot-socfpga_v2025.07_a10_only/arch/arm/dts
 
