@@ -7,3 +7,5 @@
     u-boot_build_fast.sh <= ни о чем не спрашивает, использует пути, прописанные в .fast_uboot_input_files
     write_sd_card.sh <= отдельный скрипт для записи sd карты (u-boot_build_ask.sh и u-boot_build_fasтакже записывают sd карту) 
 проверил работоспособность на iru => OK
+из интересного
+находясь в  a10_flow_u-boot_28_10 набираем <cd u-boot> (после сборки) и далее <make menuconfig>
