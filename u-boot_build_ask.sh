@@ -61,13 +61,16 @@ echo -e "\n\t\tU-BOOT git версия = $(git branch)\n" | tee -a $home/log
 info="U-BOOT git версия = $(git branch)"
 #echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
 echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
-read hps_isw_handoff_dir
+read gsrd_hps_isw_handoff
 #hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
 
 ############################################################################################################
 ############################### qts-filter-a10.sh ##########################################################
 ############################################################################################################
-hps_isw_handoff_dir="$home/$hps_isw_handoff_dir"
+if [ -s $gsrd_hps_isw_handoff ]; then
+	echo "link"
+	hps_isw_handoff_dir=$(realpath $gsrd_hps_isw_handoff)
+fi
 if [[ -d "$hps_isw_handoff_dir" && -f "$hps_isw_handoff_dir/hps.xml" ]]; then
 	rm -rf hps_xml_link
 	ln -s $hps_isw_handoff_dir/hps.xml hps_xml_link
@@ -139,7 +142,9 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 #echo -e "??? /home/$(whoami)/temp_output_quartus"
 echo -e "\n\t\tEnter full path to directory <output_files>"
 read output_files
-output_files="$home/$output_files"
+if [ -s $output_files ]; then
+	output_files=$(realpath $output_files)
+fi
 if [ -d $output_files ]; then
     sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
@@ -210,6 +215,7 @@ if [[ -f ./fit_spl_fpga.itb && -f ./u-boot.img ]]; then
     echo -e "Проверка \n\t$(file ./fit_spl_fpga.itb)\t"$(date -r ./fit_spl_fpga.itb  +"%B-%d %H:%M:%S") | tee -a $home/log
 else
 	echo -e "\n\n\t\t\tУВЫ...\n" | tee -a $home/log
+	exit
 fi
 
 
