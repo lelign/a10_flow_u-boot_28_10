@@ -63,6 +63,10 @@ info="U-BOOT git версия = $(git branch)"
 echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
 read hps_isw_handoff_dir
 #hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
+
+############################################################################################################
+############################### qts-filter-a10.sh ##########################################################
+############################################################################################################
 hps_isw_handoff_dir="$home/$hps_isw_handoff_dir"
 if [[ -d "$hps_isw_handoff_dir" && -f "$hps_isw_handoff_dir/hps.xml" ]]; then
 	rm -rf hps_xml_link
@@ -86,10 +90,20 @@ export CROSS_COMPILE=arm-none-linux-gnueabihf-
 
 echo "" > $home/u-boot.log
 #echo "pwd=$(pwd)"
+
+
+############################################################################################################
+############################ make socfpga_arria10_defconfig  ###############################################
+############################################################################################################
+
 make socfpga_arria10_defconfig | tee $home/u-boot.log
 
-################### u-boot compile
+
 sleep 3
+
+############################################################################################################
+############################ make -j ${nproc} ##############################################################
+############################################################################################################
 
 make -j ${nproc}  > $home/u-boot.log 2>&1 &
 while [ $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871)) -lt 100 ]; do
@@ -142,7 +156,9 @@ if [ -d $output_files ]; then
         output_rbf=$title
 	    output_rbf+=".rbf"
         output_rbf=$output_files/$output_rbf
-        ############ convert sof to core $ periph .rbf
+#####################################################################################################
+########################### convert sof to core $ periph .rbf #######################################
+#####################################################################################################
         $quartus_cpf $flags $sof_file $output_rbf
     else
         echo -e "Error : quartus_cpf on path $quartus_cpf not found or file  .sof doesn't exist in $output_files!"
