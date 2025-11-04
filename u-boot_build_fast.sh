@@ -36,7 +36,8 @@ a10_soc_devkit_ghrd_pro="a10_soc_devkit_ghrd_pro"
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 gsrd_dir=`pwd`
 
-u_boot_ver="u-boot-socfpga_v2025.07"
+#u_boot_ver="u-boot-socfpga_v2025.07"
+u_boot_ver="u_boot_ver"
 if [ ! -d $home/$u_boot_ver ]; then
 #if [ ! -d "../../u-boot-socfpga" ]; then
 	echo "\tнеобходимо установить u-boot toolchan, команды:" | tee -a $home/log
