@@ -158,3 +158,18 @@ fit_spl_fpga.itb в boot
 если cp u-boot.img в boot sd карты (любой u-boot.img) то стартует как обычно
 
 
+с 1 по 4 ноября переделал скрипты ask и fast
+создал u-boot-socfpga_v2025.07_a10_only
+в нем оставил:
+ls u-boot-socfpga_v2025.07_a10_only/board
+                                                altera        
+ls u-boot-socfpga_v2025.07_a10_only/arch/arm
+                                                mach-socfpga
+
+ls u-boot-socfpga_v2025.07_a10_only/arch/arm/dts
+                                                socfpga_ ....  <= only total 88
+
+через vscode закоментил все ссылки во всех Kconfig типа
+source "board..."
+source "arch/arm/mach
+
