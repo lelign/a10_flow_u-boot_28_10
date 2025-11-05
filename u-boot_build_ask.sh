@@ -4,9 +4,48 @@
 home=$('pwd')
 title=$(date "+%d-%B_%H_%M_%S_ask")
 rm -rf $home/log
-########## check compiler
+############## menu_config###############################################
+me_co_ar=()
+unset make_task
+unset choice
+if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
+	#echo found
+	echo -e "\n\tВариант конфигурации u-boot (ввести номер)"
+	count=0
+	echo -e "\t$count\tcreate default <make socfpga_arria10_defconfig>"
+	me_co_ar+=("default")
+	((count+=1))
+	echo -e "\t$count\tcreate new <make menuconfig>"
+	me_co_ar+=("create_new_config")
+	for f_c in $(find $home/menu_config -iname ".config_*"); do
+		((count+=1))
+		me_co_ar+=("$f_c")
+		echo -e "\t$count\tuse $(basename $f_c)"
+	done
+	echo -e "\n\tномер ?"
+	read num
+		if [ $num == 0 ]; then
+			make_task="socfpga_arria10_defconfig"
+		elif [ $num == 1 ]; then
+			make_task="menuconfig"
+		elif  [[ "$num" =~ ^[2-"$count"]+$ ]]; then
+			echo -e "\n\tвыбран $num\t$(basename ${me_co_ar[$num]})"
+			unset make_task
+			choice="${me_co_ar[$num]}"
+		elif  [[ ! "$num" =~ ^[0-"$count"]+$ ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
+			#echo "count=$count"
+			echo -e "\n\tError : ошибка выбора варианта конфигурации $num <= ??? \n\texit..."
+			exit
+		fi
+		
+fi
+echo -e "\t\tmake_task = $make_task \tchoice=$choice"
+
+########## check compileru-boot
+
 compiler="./gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf"
 if [ ! -d $compiler ]; then
+
 	echo -e "\n\tнеобходимо установить компайлер, команды:" | tee -a $home/log
 	echo -e "wget https://developer.arm.com/-/media/Files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf.tar.xz"
 	wget https://developer.arm.com/-/media/Files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf.tar.xz
@@ -60,6 +99,7 @@ u_boot_dir=`pwd`
 echo -e "\n\t\tU-BOOT git версия = $(git branch)\n" | tee -a $home/log
 info="U-BOOT git версия = $(git branch)"
 #echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
+#echo
 echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
 read gsrd_hps_isw_handoff
 #hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
@@ -98,14 +138,54 @@ echo "" > $home/u-boot.log
 ############################################################################################################
 ############################ make socfpga_arria10_defconfig  ###############################################
 ############################################################################################################
+if [ -n "$make_task" ]; then
+	echo -e "Continue make $make_task? (hit any key)"
+	read continue
+	if [ "$make_task" == "menuconfig" ]; then
+		clear
+		echo -e "\n\tПеред изменением конфигурации сначала обязательно загрузить валидную конфигурацию\n\tиначе сборка будет невозможна!!!"
+		echo -e "\n\tскопируйте полный путь к валидной конфигурации для последующей загрузки"
+		echo -e "\tновую конфигурацию сохраняйте в той же директории, откуда брали валидную"
+		for f in $(find $home/menu_config -maxdepth 1 -type f); do
+			echo -e "\t\t$(realpath $f)"
+		done
+		echo -e "Continue ? (any key)"
+		read continue
+	fi
+		make $make_task
+	if [ !-d "$home/menu_config" ]; then
+		mkdir $home/menu_config
+	fi
+	cp $(find $home/menu_config -iname ".config*" -mmin 1) .config
+	#cp $(find . -iname ".config*" -mmin 1) .config
+fi
 
-make socfpga_arria10_defconfig | tee $home/u-boot.log
+if [ -n "$choice" ]; then
+	echo -e "Continue cp $choice .config? (hit any key)"
+	read continue
+	cp $choice .config
+fi
+if [[ -z "$make_task" && -z "$choice" ]]; then
+	echo -e "\n\tкакая-то херня, не может быть такого\n\t exit ..."
+	exit
+fi
+#reassign choice
+choice=$(realpath .config)
+#	ln -s $menu_config .config
+#	echo -e "\n\tБудет использована конфигурация $(basename $menu_config)" | tee -a $home/log
+#else
+#	echo -e "\n\tБудет использована конфигурация default" | tee -a $home/log
+#	make socfpga_arria10_defconfig | tee $home/u-boot.log
+#fi
+ 
+#make socfpga_arria10_defconfig | tee $home/u-boot.log
+#diff /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_default .config
 
+#cp /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_add_fpga_reprogramming .config
 
-sleep 3
 
 ############################################################################################################
-############################ make -j ${nproc} ##############################################################
+############################ make -j ${nproc}     ##########################################################
 ############################################################################################################
 
 make -j ${nproc}  > $home/u-boot.log 2>&1 &
@@ -140,11 +220,16 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 ################ generate fit_spl_fpga.itb #########################
 ####################################################################
 #echo -e "??? /home/$(whoami)/temp_output_quartus"
-echo -e "\n\t\tEnter full path to directory <output_files>"
-read output_files
-if [ -s $output_files ]; then
-	output_files=$(realpath $output_files)
+if [ ! -d $(dirname $hps_isw_handoff_dir)/output_files ]; then
+	echo -e "\n\t\tEnter full path to directory <output_files>"
+	read output_files
+	if [ -s $output_files ]; then
+		output_files=$(realpath $output_files)
+	fi
+else
+	output_files=$(dirname $hps_isw_handoff_dir)/output_files
 fi
+
 if [ -d $output_files ]; then
     sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
@@ -188,7 +273,7 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
     ln -s $output_files/$core ghrd_10as066n2.core.rbf
     ln -s $output_files/$periph ghrd_10as066n2.periph.rbf
 
-    echo -e "\n\t\\ttart tools/mkimage\n"    
+    echo -e "\n\t\\tstart tools/mkimage\n"    
     
     tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb | tee -a $home/fit_log
     fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
@@ -292,6 +377,7 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	cp $home/log $(pwd)
 	cp $handoff_h $(pwd)
 	cp $fit_spl_fpga_itb $(pwd)
+	cp $choice $(pwd)
 	echo -e "Path to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
 	unset path_sd_card_image
 	path_sd_card_image=$path_sd_card/$title.img
@@ -351,8 +437,8 @@ if [ $continue == "y" ]; then
 				if  [ -d "./tmp_dir/home/root" ]; then
                     echo -e "\n\t SUCCESS !!!\n"
 					echo -e "\n\t использованные файлы добавлены в root область SD карты /home/root:"
-					for f in $(ls ./tmp_dir/home/root); do
-					echo -e "\t\t$f"
+					for f in $(find ./tmp_dir/home/root -maxdepth 1 -type f); do
+					echo -e "\t\t$(basename $f)"
 					done
 				fi
 				sudo umount $root_path
