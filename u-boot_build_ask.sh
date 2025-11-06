@@ -1,10 +1,57 @@
 #!/bin/bash
 ############# u_boot ################ Arria 10 SoC - Boot from SD Card
-#some changes 27_10
 home=$('pwd')
 title=$(date "+%d-%B_%H_%M_%S_ask")
 rm -rf $home/log
-############## menu_config###############################################
+#########################################################################
+###################### Quartus project choice ###########################
+#########################################################################
+possible_path=()
+for q in $(lsblk --pairs | grep 'RM="0"' | grep -v 'MOUNTPOINTS=""' | grep -v loop | grep -v "/boot/efi" | cut -d '"' -f 14); do
+if [ $q == "/" ]; then
+	this_path="/home/$(whoami)"
+else
+	this_path="$q"
+fi
+if [[ (-d "$this_path") && ("$this_path" != *"old_"*) && ("$this_path" != *"lost+found") ]]; then
+	cd $this_path
+	for file in $(find ./ -maxdepth 5 -type f -name 'hps.xml'); do
+		if [[ -f $file ]]; then
+			hps_isw_handoff=$(basename $(dirname $file))
+			project_name=$(basename $(dirname $(dirname $file)))
+			project_path=$(realpath $(dirname $(dirname $file)))
+			output_files=$(realpath "$project_path/output_files")
+			if [ -d $output_files ]; then
+				sof=$(find $output_files -maxdepth 1 -type f -name "*.sof")
+				if [ -f $sof ]; then
+						possible_path+=("$project_name $project_path")
+				fi
+			fi
+		fi
+	done
+fi
+done
+
+count=0
+echo -e "Выберите проект (ввести номер)"
+for el in "${possible_path[@]}"; do
+	echo -e "$count\t$el"
+	((count+=1))
+done
+echo -e "\n\tномер ?"
+read pr_num
+#if  [[ "$pr_num" =~ ^[0-"$count"]+$ ]]; then
+if  [[ "$pr_num" =~ ^[0-9]+$ && $pr_num -le $count ]]; then
+	project="${possible_path[$pr_num]}"
+	echo -e "выбран $pr_num $project"
+	project=$(echo $project | cut -d " " -f 2)
+else
+	echo -e "\n\tError : ошибка выбора проекта $pr_num <= ??? \n\texit..."
+	exit
+fi
+##################################################################################
+############## u-boot config choice ##############################################
+##################################################################################
 me_co_ar=()
 unset make_task
 unset choice
@@ -42,7 +89,7 @@ fi
 echo -e "\t\tmake_task = $make_task \tchoice=$choice"
 
 ########## check compileru-boot
-
+cd $home
 compiler="./gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf"
 if [ ! -d $compiler ]; then
 
@@ -100,17 +147,19 @@ echo -e "\n\t\tU-BOOT git версия = $(git branch)\n" | tee -a $home/log
 info="U-BOOT git версия = $(git branch)"
 #echo -e "???  /home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff" 
 #echo
-echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
-read gsrd_hps_isw_handoff
+#echo -e "\n\t\tEnter full path to directory hps_isw_handoff"
+#read gsrd_hps_isw_handoff
 #hps_isw_handoff_dir="/home/$(whoami)/Quartus_projects/AR_PROV1_2_compiled_with_some_changes/hps_isw_handoff"
 
 ############################################################################################################
 ############################### qts-filter-a10.sh ##########################################################
 ############################################################################################################
-if [ -s $gsrd_hps_isw_handoff ]; then
-	echo "link"
-	hps_isw_handoff_dir=$(realpath $gsrd_hps_isw_handoff)
-fi
+#if [ -s $gsrd_hps_isw_handoff ]; then
+#	echo "link"
+#	hps_isw_handoff_dir=$(realpath $gsrd_hps_isw_handoff)
+#fi
+echo "project=$project"
+hps_isw_handoff_dir="$project/hps_isw_handoff"
 if [[ -d "$hps_isw_handoff_dir" && -f "$hps_isw_handoff_dir/hps.xml" ]]; then
 	rm -rf hps_xml_link
 	ln -s $hps_isw_handoff_dir/hps.xml hps_xml_link
@@ -220,18 +269,19 @@ echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
 ################ generate fit_spl_fpga.itb #########################
 ####################################################################
 #echo -e "??? /home/$(whoami)/temp_output_quartus"
-if [ ! -d $(dirname $hps_isw_handoff_dir)/output_files ]; then
-	echo -e "\n\t\tEnter full path to directory <output_files>"
-	read output_files
-	if [ -s $output_files ]; then
-		output_files=$(realpath $output_files)
-	fi
-else
-	output_files=$(dirname $hps_isw_handoff_dir)/output_files
-fi
+#if [ ! -d $(dirname $hps_isw_handoff_dir)/output_files ]; then
+#	echo -e "\n\t\tEnter full path to directory <output_files>"
+#	read output_files
+#	if [ -s $output_files ]; then
+#		output_files=$(realpath $output_files)
+#	fi
+#else
+#	output_files=$(dirname $hps_isw_handoff_dir)/output_files
+#fi
 
-if [ -d $output_files ]; then
-    sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
+if [ -d "$project/output_files" ]; then
+#    sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
+	sof_file=$(find "$project/output_files" -maxdepth 1 -type f -name *.sof)
 	quartus=$(find /home/$(whoami) -maxdepth 3 -type d -name "quartus")
 	if [ ! -d "$quartus" ]; then
 		quartus=$(find /home/$(whoami)/Quartus/ -maxdepth 3 -type d -name "quartus" | grep "Quartus_pro_21_4/quartus")
