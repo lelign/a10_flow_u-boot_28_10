@@ -75,11 +75,11 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 			make_task="socfpga_arria10_defconfig"
 		elif [ $num == 1 ]; then
 			make_task="menuconfig"
-		elif  [[ "$num" =~ ^[2-"$count"]+$ ]]; then
+		elif  [[ "$num" =~ ^[2-9]+$ && "$num" -le "$count" ]]; then
 			echo -e "\n\tвыбран $num\t$(basename ${me_co_ar[$num]})"
 			unset make_task
 			choice="${me_co_ar[$num]}"
-		elif  [[ ! "$num" =~ ^[0-"$count"]+$ ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
+		elif  [[ ! "$num" =~ ^[0-9]+$ || "$num" -gt "$count" ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
 			#echo "count=$count"
 			echo -e "\n\tError : ошибка выбора варианта конфигурации $num <= ??? \n\texit..."
 			exit
