@@ -31,14 +31,18 @@ if [[ (-d "$this_path") && ("$this_path" != *"old_"*) && ("$this_path" != *"lost
 	done
 fi
 done
-
+ 
 count=0
 echo -e "Выберите проект (ввести номер)"
+printf "\t%-3s | %-50s | %-50s\n" "№  " "   проект   " "дата создания"
 for el in "${possible_path[@]}"; do
-	echo -e "$count\t$el"
+	name_pr=$(echo $el | cut -d " " -f 1)
+	date_pr=$(date -r $(echo $el | cut -d " " -f 2) +"%m-%d %H:%M:%S")
+	#echo -e "$count\t$el"
+	printf "\t%-3s | %-50s | %-10s\n" "$count" "$name_pr" "$date_pr"
 	((count+=1))
 done
-echo -e "\n\tномер ?"
+echo -e "\n\tНомер проекта ?"
 read pr_num
 #if  [[ "$pr_num" =~ ^[0-"$count"]+$ ]]; then
 if  [[ "$pr_num" =~ ^[0-9]+$ && $pr_num -le $count ]]; then
@@ -49,46 +53,9 @@ else
 	echo -e "\n\tError : ошибка выбора проекта $pr_num <= ??? \n\texit..."
 	exit
 fi
-##################################################################################
-############## u-boot config choice ##############################################
-##################################################################################
-me_co_ar=()
-unset make_task
-unset choice
-if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
-	#echo found
-	echo -e "\n\tВариант конфигурации u-boot (ввести номер)"
-	count=0
-	echo -e "\t$count\tcreate default <make socfpga_arria10_defconfig>"
-	me_co_ar+=("default")
-	((count+=1))
-	echo -e "\t$count\tcreate new <make menuconfig>"
-	me_co_ar+=("create_new_config")
-	for f_c in $(find $home/menu_config -iname ".config_*"); do
-		((count+=1))
-		me_co_ar+=("$f_c")
-		echo -e "\t$count\tuse $(basename $f_c)"
-	done
-	echo -e "\n\tномер ?"
-	read num
-		if [ $num == 0 ]; then
-			make_task="socfpga_arria10_defconfig"
-		elif [ $num == 1 ]; then
-			make_task="menuconfig"
-		elif  [[ "$num" =~ ^[2-9]+$ && "$num" -le "$count" ]]; then
-			echo -e "\n\tвыбран $num\t$(basename ${me_co_ar[$num]})"
-			unset make_task
-			choice="${me_co_ar[$num]}"
-		elif  [[ ! "$num" =~ ^[0-9]+$ || "$num" -gt "$count" ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
-			#echo "count=$count"
-			echo -e "\n\tError : ошибка выбора варианта конфигурации $num <= ??? \n\texit..."
-			exit
-		fi
-		
-fi
-echo -e "\t\tmake_task = $make_task \tchoice=$choice"
 
-########## check compileru-boot
+
+########## check compiler u-boot
 cd $home
 compiler="./gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf"
 if [ ! -d $compiler ]; then
@@ -182,44 +149,113 @@ export CROSS_COMPILE=arm-none-linux-gnueabihf-
 
 echo "" > $home/u-boot.log
 #echo "pwd=$(pwd)"
+##################################################################################
+############## u-boot config choice ##############################################
+##################################################################################
+me_co_ar=()
+#unset make_task
+unset choice
+if [ ! -d "$home/menu_config" ]; then 
+	echo -e "\n\tНет доступных конфигураций для u-boot!"
+	echo -e "\n\tБудет сгенерирована конфигурация <default> для u-boot!"
+	sleep 1
+	
+	make socfpga_arria10_defconfig
+	if [ -f "$(pwd)/.config" ]; then
+		mkdir $home/menu_config
+		cp $(pwd)/.config $home/menu_config/.config_default
+		rm $(pwd)/.config
+		ln -s $home/menu_config/.config_default $(pwd)/.config
+	else
+		echo -e "/n/tError: Что-то не так, отсутсвует файл .config после выполнения <make socfpga_arria10_defconfig>"
+	fi
+fi
+if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
+	#echo found
+	echo -e "\n\tВариант конфигурации u-boot (ввести номер)"
+	printf "\t%-3s | %-50s | %-10s\n" "№  " "   имя   " "дата создания"
+	count=0
+	#echo -e "\t$count\tcreate default <make socfpga_arria10_defconfig>"
+	#me_co_ar+=("default")
+	#((count+=1))
+	#echo -e "\t$count\tcreate new <make menuconfig>"
+	#me_co_ar+=("create_new_config")
+	for f_c in $(find $home/menu_config -iname ".config_*"); do		
+		me_co_ar+=("$f_c")
+		printf "\t%-3s | %-50s | %-10s\n" "$count" "$(basename $f_c)" "$(date -r $f_c +"%m-%d %H:%M:%S")"
+		#echo -e "\t$count\tиспользовать $(basename $f_c)\t\t\t\tот $(date -r $f_c +"%m-%d %H:%M:%S")"
+		((count+=1))
+	done
+	echo -e "\n\tНомер конфигурации ?"
+	read num
+	#if [ $num == 0 ]; then
+	#	make_task="socfpga_arria10_defconfig"
+	#elif [ $num == 1 ]; then
+	#	make_task="menuconfig"
+	#elif  [[ ("$num" =~ ^[0-9]+$) && "$num" -le "$count" && "$num" -gt 1 ]]; then
+	if  [[ ("$num" =~ ^[0-9]+$) && "$num" -le "$count" ]]; then
+		echo -e "\n\tвыбран $num\t$(basename ${me_co_ar[$num]})"
+		unset make_task
+		choice="${me_co_ar[$num]}"
+	elif  [[ ! "$num" =~ ^[0-9]+$ || "$num" -gt "$count" ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
+		#echo "count=$count"
+		echo -e "\n\tError : ошибка выбора варианта конфигурации $num <= ??? \n\texit..."
+		exit
+	fi
+		
+fi
+echo -e "\tchoice=$choice"
+#cp $choice .config
+echo -e "\n\tИзменить конфигурацию <make menuconfig> ? (y/n)"
+read change_config
+if [ "$change_config" == "y" ]; then
+###################### process to cp config
+	while true; do
+	for f in $(file $(find ./ -maxdepth 1 -type f -name ".*") | grep "ASCII text" | grep -v "with very long lines" | grep -v ".old" | cut -d ":" -f 1); do 
+		if [[ "$(cat $f | head -3)" == *"# U-Boot 2025.07 Configuration"* ]]; then
+			if [[ ! -f "$home/$(basename $f)" ]]; then
+				cp $(basename $f) "$home/menu_config"
+				rm -rf $(pwd)/.config
+				ln -s $home/menu_config/$(basename $f) $(pwd)/.config
+			fi
+		fi
+	done
+	sleep 1
+	done &
+	pid_process=$!
+
+	rm -rf $(pwd).config
+	ln -s $choice $(pwd)/.config
+	make menuconfig
+	kill $pid_process
+
+	#if [ ! -f "$(pwd)/.config" ]; then
+	#	echo -e "\n\tError : file $(pwd)/.config doesn't exist!\n\tContinue ? (any key)"
+	#	read continue
+	#fi
+	#cp $(pwd)/.config $choice
+else
+	rm -rf .config
+	ln -s $choice $(pwd)/.config
+fi
+if [ ! -s "$(pwd)/.config" ]; then
+	echo -e "\n\tError :file $(pwd)/.config doesn't exist\n\tContinue ? (any key)"
+	read continue
+fi
+echo $(file $(pwd)/.config)
+sleep 3
+
 
 
 ############################################################################################################
 ############################ make socfpga_arria10_defconfig  ###############################################
 ############################################################################################################
-if [ -n "$make_task" ]; then
-	echo -e "Continue make $make_task? (hit any key)"
-	read continue
-	if [ "$make_task" == "menuconfig" ]; then
-		clear
-		echo -e "\n\tПеред изменением конфигурации сначала обязательно загрузить валидную конфигурацию\n\tиначе сборка будет невозможна!!!"
-		echo -e "\n\tскопируйте полный путь к валидной конфигурации для последующей загрузки"
-		echo -e "\tновую конфигурацию сохраняйте в той же директории, откуда брали валидную"
-		for f in $(find $home/menu_config -maxdepth 1 -type f); do
-			echo -e "\t\t$(realpath $f)"
-		done
-		echo -e "Continue ? (any key)"
-		read continue
-	fi
-		make $make_task
-	if [ !-d "$home/menu_config" ]; then
-		mkdir $home/menu_config
-	fi
-	cp $(find $home/menu_config -iname ".config*" -mmin 1) .config
-	#cp $(find . -iname ".config*" -mmin 1) .config
-fi
+# if [ -n "$make_task" ]; then echo -e "Continue make $make_task? (hit any key)" read continue if [ "$make_task" == "menuconfig" ]; then clear echo -e "\n\tПеред изменением конфигурации сначала обязательно загрузить валидную конфигурацию\n\tиначе сборка будет невозможна!!!" echo -e "\n\tскопируйте полный путь к валидной конфигурации для последующей загрузки" echo -e "\tновую конфигурацию сохраняйте в той же директории, откуда брали валидную\n" for f in $(find $home/menu_config -maxdepth 1 -type f); do echo -e "\t\t$(realpath $f)" done echo -e "\n\tобязательно сделайте терминал большого размера\n" echo -e "Continue ? (any key)" read continue make $make_task fi if [ ! -d "$home/menu_config" ]; then mkdir $home/menu_config fi cp $(find $home/menu_config -iname ".config*" -printf "%T@ %p\n" | sort -n | tail -1 | cut -d " " -f 2 ) .config if [ ! -f ".config" ]; then echo -e "PROBLEM!! file .config not found!!!" echo -e "Continue ? (any key)" read continue #make $make_task fi #cp $(find . -iname ".config*" -mmin 1) .config fi
 
-if [ -n "$choice" ]; then
-	echo -e "Continue cp $choice .config? (hit any key)"
-	read continue
-	cp $choice .config
-fi
-if [[ -z "$make_task" && -z "$choice" ]]; then
-	echo -e "\n\tкакая-то херня, не может быть такого\n\t exit ..."
-	exit
-fi
+#if [ -n "$choice" ]; then #echo -e "Continue cp $choice .config? (hit any key)" read continue cp $choice .config make menuconfig if [ ! -f "$(pwd)/.config" ]; then echo -e "\n\tError : file $(pwd)/.config doesn't exist!\n\tContinue ? (any key)" read continue fi cp .config $choice fi
+#if [[ -z "$make_task" && -z "$choice" ]]; then echo -e "\n\tкакая-то херня, не может быть такого\n\t exit ..." exit fi
 #reassign choice
-choice=$(realpath .config)
+#choice=$(realpath .config)
 #	ln -s $menu_config .config
 #	echo -e "\n\tБудет использована конфигурация $(basename $menu_config)" | tee -a $home/log
 #else
