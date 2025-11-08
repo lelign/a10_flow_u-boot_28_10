@@ -34,7 +34,7 @@ done
  
 count=0
 echo -e "Выберите проект (ввести номер)"
-printf "\t%-3s | %-50s | %-50s\n" "№  " "   проект   " "дата создания"
+printf "\t%-3s | %-50s | %-50s\n" "№  " "   имя проекта   " "дата создания"
 for el in "${possible_path[@]}"; do
 	name_pr=$(echo $el | cut -d " " -f 1)
 	date_pr=$(date -r $(echo $el | cut -d " " -f 2) +"%m-%d %H:%M:%S")
@@ -47,7 +47,8 @@ read pr_num
 #if  [[ "$pr_num" =~ ^[0-"$count"]+$ ]]; then
 if  [[ "$pr_num" =~ ^[0-9]+$ && $pr_num -le $count ]]; then
 	project="${possible_path[$pr_num]}"
-	echo -e "выбран $pr_num $project"
+	name_pr=$(echo $project | cut -d " " -f 1)
+	echo -e "\n\tвыбран $pr_num\t$name_pr\n\t$project"
 	project=$(echo $project | cut -d " " -f 2)
 else
 	echo -e "\n\tError : ошибка выбора проекта $pr_num <= ??? \n\texit..."
@@ -158,6 +159,7 @@ unset choice
 if [ ! -d "$home/menu_config" ]; then 
 	echo -e "\n\tНет доступных конфигураций для u-boot!"
 	echo -e "\n\tБудет сгенерирована конфигурация <default> для u-boot!"
+	echo -e "\n\t<make socfpga_arria10_defconfig>"
 	sleep 1
 	
 	make socfpga_arria10_defconfig
@@ -173,14 +175,14 @@ fi
 if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
 	#echo found
 	echo -e "\n\tВариант конфигурации u-boot (ввести номер)"
-	printf "\t%-3s | %-50s | %-10s\n" "№  " "   имя   " "дата создания"
+	printf "\t%-3s | %-50s | %-10s\n" "№  " "конфигурация" "дата создания"
 	count=0
 	#echo -e "\t$count\tcreate default <make socfpga_arria10_defconfig>"
 	#me_co_ar+=("default")
 	#((count+=1))
 	#echo -e "\t$count\tcreate new <make menuconfig>"
 	#me_co_ar+=("create_new_config")
-	for f_c in $(find $home/menu_config -iname ".config_*"); do		
+	for f_c in $(find $home/menu_config -type f); do		
 		me_co_ar+=("$f_c")
 		printf "\t%-3s | %-50s | %-10s\n" "$count" "$(basename $f_c)" "$(date -r $f_c +"%m-%d %H:%M:%S")"
 		#echo -e "\t$count\tиспользовать $(basename $f_c)\t\t\t\tот $(date -r $f_c +"%m-%d %H:%M:%S")"
@@ -194,8 +196,8 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 	#	make_task="menuconfig"
 	#elif  [[ ("$num" =~ ^[0-9]+$) && "$num" -le "$count" && "$num" -gt 1 ]]; then
 	if  [[ ("$num" =~ ^[0-9]+$) && "$num" -le "$count" ]]; then
-		echo -e "\n\tвыбран $num\t$(basename ${me_co_ar[$num]})"
-		unset make_task
+		echo -e "\n\tвыбран номер $num\tконфигурация $(basename ${me_co_ar[$num]})"
+		#unset make_task
 		choice="${me_co_ar[$num]}"
 	elif  [[ ! "$num" =~ ^[0-9]+$ || "$num" -gt "$count" ]]; then # [[ "$my_var" =~ ^[0-9]+$ ]]
 		#echo "count=$count"
@@ -204,15 +206,15 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 	fi
 		
 fi
-echo -e "\tchoice=$choice"
+#echo -e "\tВыбрана конфигурация : $choice"
 #cp $choice .config
-echo -e "\n\tИзменить конфигурацию <make menuconfig> ? (y/n)"
+echo -e "\n\tИзменить конфигурацию <make menuconfig> для $(basename $choice) ? (y/n)"
 read change_config
 if [ "$change_config" == "y" ]; then
 ###################### process to cp config
 	while true; do
-	for f in $(file $(find ./ -maxdepth 1 -type f -name ".*") | grep "ASCII text" | grep -v "with very long lines" | grep -v ".old" | cut -d ":" -f 1); do 
-		if [[ "$(cat $f | head -3)" == *"# U-Boot 2025.07 Configuration"* ]]; then
+	for f in $(file $(find ./ -maxdepth 1 -type f ) | grep "ASCII text" | grep -v "with very long lines" | grep -v ".old" | cut -d ":" -f 1); do 
+		if [[ "$(cat $f | head -3)" == *"U-Boot"*"Configuration"* ]]; then
 			if [[ ! -f "$home/$(basename $f)" ]]; then
 				cp $(basename $f) "$home/menu_config"
 				rm -rf $(pwd)/.config
@@ -220,13 +222,14 @@ if [ "$change_config" == "y" ]; then
 			fi
 		fi
 	done
-	sleep 1
+	sleep .2
 	done &
 	pid_process=$!
 
 	rm -rf $(pwd).config
 	ln -s $choice $(pwd)/.config
 	make menuconfig
+	sleep .4
 	kill $pid_process
 
 	#if [ ! -f "$(pwd)/.config" ]; then
@@ -364,7 +367,8 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
     tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb | tee -a $home/fit_log
     fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
     date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S")
-    echo -e "\n\t$(file $fit_spl_fpga_itb) \n\t$date_fit_spl_fpga_itb" | tee -a $home/log
+	fit_spl_fpga_itb_prf=$(file u-boot/fit_spl_fpga.itb | cut -d ":" -f 2)
+    echo -e "\n\tfit_spl_fpga.itb <= $fit_spl_fpga_itb_prf \n\t$date_fit_spl_fpga_itb" | tee -a $home/log
 else
     echo -e "Error : file $core or file $periph on path $output_files not found !"
 fi
@@ -379,11 +383,11 @@ if [[ -f ./fit_spl_fpga.itb && -f ./u-boot.img ]]; then
 	u_boot_spl=$(find $(pwd) -maxdepth 2 -type f -name "u-boot-splx4.sfp") # ok full path
 	#echo "u_boot_img = $u_boot_img u_boot_spl = $u_boot_spl" 
 
-	echo -e "u-boot использовал файлы из:" | tee -a $home/log
+	echo -e "\tu-boot использовал файлы из:" | tee -a $home/log
     date_sof_file=$(date -r $sof_file  +"%B-%d %H:%M:%S")
-    echo -e "\t\t.sof = $sof_file $date_sof_file" | tee -a $home/log
-    echo -e "\t\thps.xml = $hps_isw_handoff_dir/hps.xml $recorded_hps_xml" | tee -a $home/log
-    echo -e "Проверка \n\t$(file ./fit_spl_fpga.itb)\t"$(date -r ./fit_spl_fpga.itb  +"%B-%d %H:%M:%S") | tee -a $home/log
+    echo -e "\t\t.sof = $(dirname $sof_file) $date_sof_file" | tee -a $home/log
+    echo -e "\t\thps.xml = $(dirname $hps_isw_handoff_dir/hps.xml) $recorded_hps_xml" | tee -a $home/log
+    #echo -e "Проверка \n\t$(file ./fit_spl_fpga.itb)\t"$(date -r ./fit_spl_fpga.itb  +"%B-%d %H:%M:%S") | tee -a $home/log
 else
 	echo -e "\n\n\t\t\tУВЫ...\n" | tee -a $home/log
 	exit
