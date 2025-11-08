@@ -42,8 +42,8 @@ for el in "${possible_path[@]}"; do
 	printf "\t%-3s | %-50s | %-10s\n" "$count" "$name_pr" "$date_pr"
 	((count+=1))
 done
-echo -e "\n\tНомер проекта ?"
-read pr_num
+#echo -e "\n\tНомер проекта ?"
+read -p "Номер проекта: " pr_num
 #if  [[ "$pr_num" =~ ^[0-"$count"]+$ ]]; then
 if  [[ "$pr_num" =~ ^[0-9]+$ && $pr_num -le $count ]]; then
 	project="${possible_path[$pr_num]}"
@@ -188,8 +188,8 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 		#echo -e "\t$count\tиспользовать $(basename $f_c)\t\t\t\tот $(date -r $f_c +"%m-%d %H:%M:%S")"
 		((count+=1))
 	done
-	echo -e "\n\tНомер конфигурации ?"
-	read num
+	#echo -e "\n\tНомер конфигурации ?"
+	read -p "Номер конфигурации: " num
 	#if [ $num == 0 ]; then
 	#	make_task="socfpga_arria10_defconfig"
 	#elif [ $num == 1 ]; then
@@ -208,8 +208,8 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 fi
 #echo -e "\tВыбрана конфигурация : $choice"
 #cp $choice .config
-echo -e "\n\tИзменить конфигурацию <make menuconfig> для $(basename $choice) ? (y/n)"
-read change_config
+#echo -e "\n\tИзменить конфигурацию <make menuconfig> для $(basename $choice) ? (y/n)"
+read -p "Изменить конфигурацию <make menuconfig> для $(basename $choice) ? (y/n)" change_config
 if [ "$change_config" == "y" ]; then
 ###################### process to cp config
 	while true; do
@@ -242,8 +242,8 @@ else
 	ln -s $choice $(pwd)/.config
 fi
 if [ ! -s "$(pwd)/.config" ]; then
-	echo -e "\n\tError :file $(pwd)/.config doesn't exist\n\tContinue ? (any key)"
-	read continue
+	#echo -e "\n\tError :file $(pwd)/.config doesn't exist\n\tContinue ? (any key)"
+	read -p "Error :file $(pwd)/.config doesn't exist, continue ? (any key) " continue
 fi
 echo $(file $(pwd)/.config)
 sleep 3
@@ -362,8 +362,8 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
     ln -s $output_files/$core ghrd_10as066n2.core.rbf
     ln -s $output_files/$periph ghrd_10as066n2.periph.rbf
 
-    echo -e "\n\t\\tstart tools/mkimage\n"    
-    
+    echo -e "\n\t\tstart tools/mkimage\n"    
+    echo $title > $home/fit_log
     tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb | tee -a $home/fit_log
     fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
     date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S")
@@ -399,7 +399,7 @@ fi
 
 unset path_sd_card_image
 if $build; then
-	echo -e "\n\t\t\tmake image for SD card"  | tee -a $home/log
+	echo -e "\n\t\t\tmake image for SD card\n"  | tee -a $home/log
 	u_boot_dir=$`pwd`
 
 
@@ -473,12 +473,12 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	path_sd_card_image=$path_sd_card/$title.img
 fi
 
-echo -e "\n\tПишем образ на SD карту? y/n"
-read continue
+#echo -e "\n\tПишем образ на SD карту? y/n"
+read -p "Пишем образ на SD карту? y/n " continue
 if [ $continue == "y" ]; then
 	if [ -z $path_sd_card_image ]; then
-		echo -e "\n\tEnter full path to sd card image"
-		read path_sd_card_image
+		#echo -e "\n\tEnter full path to sd card image"
+		read -p "Enter full path to sd card image" path_sd_card_image
 	fi
 	dev_exist=false
 	unset device
@@ -506,8 +506,8 @@ if [ $continue == "y" ]; then
 							echo -e "\t\tUmounted $dev"
 						done
 				fi
-			echo -e "\n\tПишем на /dev/$device? y/n"
-			read do_it
+			#echo -e "\n\tПишем на /dev/$device? y/n"
+			read -p "Пишем на /dev/$device? y/n " do_it
 			
 			if [ $do_it == "y" ]; then
 			##########################################################################
