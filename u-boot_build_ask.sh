@@ -468,7 +468,7 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	cp $handoff_h $(pwd)
 	cp $fit_spl_fpga_itb $(pwd)
 	cp $choice $(pwd)
-	echo -e "Path to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
+	echo -e "\n\tPath to sd_card image: \n\t$path_sd_card/$title.img\n" | tee -a $home/log
 	unset path_sd_card_image
 	path_sd_card_image=$path_sd_card/$title.img
 fi
