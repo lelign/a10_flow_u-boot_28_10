@@ -473,6 +473,28 @@ if [[ -n $(file $title.img | grep -c "partition 1") && \
 	path_sd_card_image=$path_sd_card/$title.img
 fi
 
+# START inserted here smblient to anton
+
+if [[ ! -f $path_sd_card_image ]]; then
+	echo -e "Error : path sd_card image $path_sd_card_image NOT FOUND\texit..."
+	exit
+fi
+
+image=$path_sd_card_image
+image_remote=$(basename $image)
+
+read -p "Скопировать образ $image_remote в //192.168.2.35/iru_anton? y/n " copy
+if [ "$copy" == "y" ]; then
+echo -e "\n\tSMB-client put $image_remote to //192.168.2.35/iru_anton ~1 minute, \n\twait for message <putting file /path/to/image>"
+smbclient //192.168.2.35/iru_anton --user=all --password=a <<EOF
+put "$image" $image_remote
+exit
+EOF
+fi
+# END inserted here smblient to anton
+
+
+
 #echo -e "\n\tПишем образ на SD карту? y/n"
 read -p "Пишем образ на SD карту? y/n " continue
 if [ $continue == "y" ]; then
