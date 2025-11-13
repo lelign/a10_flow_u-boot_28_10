@@ -253,34 +253,28 @@ sleep 3
 ############################################################################################################
 ############################ make socfpga_arria10_defconfig  ###############################################
 ############################################################################################################
-# if [ -n "$make_task" ]; then echo -e "Continue make $make_task? (hit any key)" read continue if [ "$make_task" == "menuconfig" ]; then clear echo -e "\n\tПеред изменением конфигурации сначала обязательно загрузить валидную конфигурацию\n\tиначе сборка будет невозможна!!!" echo -e "\n\tскопируйте полный путь к валидной конфигурации для последующей загрузки" echo -e "\tновую конфигурацию сохраняйте в той же директории, откуда брали валидную\n" for f in $(find $home/menu_config -maxdepth 1 -type f); do echo -e "\t\t$(realpath $f)" done echo -e "\n\tобязательно сделайте терминал большого размера\n" echo -e "Continue ? (any key)" read continue make $make_task fi if [ ! -d "$home/menu_config" ]; then mkdir $home/menu_config fi cp $(find $home/menu_config -iname ".config*" -printf "%T@ %p\n" | sort -n | tail -1 | cut -d " " -f 2 ) .config if [ ! -f ".config" ]; then echo -e "PROBLEM!! file .config not found!!!" echo -e "Continue ? (any key)" read continue #make $make_task fi #cp $(find . -iname ".config*" -mmin 1) .config fi
-
-#if [ -n "$choice" ]; then #echo -e "Continue cp $choice .config? (hit any key)" read continue cp $choice .config make menuconfig if [ ! -f "$(pwd)/.config" ]; then echo -e "\n\tError : file $(pwd)/.config doesn't exist!\n\tContinue ? (any key)" read continue fi cp .config $choice fi
-#if [[ -z "$make_task" && -z "$choice" ]]; then echo -e "\n\tкакая-то херня, не может быть такого\n\t exit ..." exit fi
-#reassign choice
-#choice=$(realpath .config)
-#	ln -s $menu_config .config
-#	echo -e "\n\tБудет использована конфигурация $(basename $menu_config)" | tee -a $home/log
-#else
-#	echo -e "\n\tБудет использована конфигурация default" | tee -a $home/log
-#	make socfpga_arria10_defconfig | tee $home/u-boot.log
-#fi
- 
-#make socfpga_arria10_defconfig | tee $home/u-boot.log
-#diff /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_default .config
-
-#cp /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_add_fpga_reprogramming .config
-
+# if [ -n "$make_task" ]; then echo -e "Continue make $make_task? (hit any key)" read continue if [ "$make_task" == "menuconfig" ]; then clear echo -e "\n\tПеред изменением конфигурации сначала обязательно загрузить валидную конфигурацию\n\tиначе сборка будет невозможна!!!" echo -e "\n\tскопируйте полный путь к валидной конфигурации для последующей загрузки" echo -e "\tновую конфигурацию сохраняйте в той же директории, откуда брали валидную\n" for f in $(find $home/menu_config -maxdepth 1 -type f); do echo -e "\t\t$(realpath $f)" done echo -e "\n\tобязательно сделайте терминал большого размера\n" echo -e "Continue ? (any key)" read continue make $make_task fi if [ ! -d "$home/menu_config" ]; then mkdir $home/menu_config fi cp $(find $home/menu_config -iname ".config*" -printf "%T@ %p\n" | sort -n | tail -1 | cut -d " " -f 2 ) .config if [ ! -f ".config" ]; then echo -e "PROBLEM!! file .config not found!!!" echo -e "Continue ? (any key)" read continue #make $make_task fi #cp $(find . -iname ".config*" -mmin 1) .config fi #if [ -n "$choice" ]; then #echo -e "Continue cp $choice .config? (hit any key)" read continue cp $choice .config make menuconfig if [ ! -f "$(pwd)/.config" ]; then echo -e "\n\tError : file $(pwd)/.config doesn't exist!\n\tContinue ? (any key)" read continue fi cp .config $choice fi #if [[ -z "$make_task" && -z "$choice" ]]; then echo -e "\n\tкакая-то херня, не может быть такого\n\t exit ..." exit fi #reassign choice #choice=$(realpath .config) #	ln -s $menu_config .config #	echo -e "\n\tБудет использована конфигурация $(basename $menu_config)" | tee -a $home/log #else #	echo -e "\n\tБудет использована конфигурация default" | tee -a $home/log #	make socfpga_arria10_defconfig | tee $home/u-boot.log #fi #make socfpga_arria10_defconfig | tee $home/u-boot.log #diff /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_default .config #cp /media/ignat/sda-7/macnica_styhead/a10_flow_u-boot_28_10/menu_config/.config_add_fpga_reprogramming .config
 
 ############################################################################################################
 ############################ make -j ${nproc}     ##########################################################
 ############################################################################################################
 
 make -j ${nproc}  > $home/u-boot.log 2>&1 &
+u_boot_pid_process=$!
 while [ $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871)) -lt 100 ]; do
 	clear
 	echo -e "\n\t\t\tU-BOOT сборка, лог пишем в u-boot.log"
 	echo -e "\t\t\tготово $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871))%"
+	if [ $(cat $home/u-boot.log | grep Error -c) -gt 0 ]; then 
+		echo -e "\n\n\t\t\tОщибка сборки u-boot, exit...\n"
+		kill $u_boot_pid_process 2>/dev/null
+		er_string=$(cat $home/u-boot.log -n | grep arm-none-linux- | cut -d" " -f 4)
+		t_ail=$(echo $er_string | cut -d " " -f 1)
+		if  [[ ("$t_ail" =~ ^[0-9]+$) && "$t_ail" -gt 0 ]]; then
+			tail -n +$t_ail $home/u-boot.log
+		fi
+		exit
+	fi
 	if [[ $(ls | grep -c u-boot) -gt 6 ]]; then
 		sleep 1
 		break
@@ -288,35 +282,15 @@ while [ $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871)) -lt 100 ]; do
 	sleep .5
 done
 clear
-echo -e "\n\t\t\tU-BOOT собран, лог записан u-boot.log"
+echo -e "\n\t\t\tU-BOOT собран, лог записан в u-boot.log"
 
-#if [[ -f $gsrd_dir/output_files/ghrd_10as066n2.core.rbf  && -f $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf ]]; then
-#	ln -s $gsrd_dir/output_files/ghrd_10as066n2.core.rbf .
-#	ln -s $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf .
-#else
-#	echo -e "error : files ghrd_10as066n2.core.rbf or ghrd_10as066n2.periph.rbf not found in path $gsrd_dir" | tee -a $home/log
-#	exit
-#fi
-
-#tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb
-#fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
-#date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S")
-#echo -e "\t$fit_spl_fpga_itb \t$date_fit_spl_fpga_itb" | tee -a $home/log
+#if [[ -f $gsrd_dir/output_files/ghrd_10as066n2.core.rbf  && -f $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf ]]; then #	ln -s $gsrd_dir/output_files/ghrd_10as066n2.core.rbf . #	ln -s $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf . #else #	echo -e "error : files ghrd_10as066n2.core.rbf or ghrd_10as066n2.periph.rbf not found in path $gsrd_dir" | tee -a $home/log #	exit #fi #tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb #fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb) #date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S") #echo -e "\t$fit_spl_fpga_itb \t$date_fit_spl_fpga_itb" | tee -a $home/log
 
 
 ####################################################################
 ################ generate fit_spl_fpga.itb #########################
 ####################################################################
-#echo -e "??? /home/$(whoami)/temp_output_quartus"
-#if [ ! -d $(dirname $hps_isw_handoff_dir)/output_files ]; then
-#	echo -e "\n\t\tEnter full path to directory <output_files>"
-#	read output_files
-#	if [ -s $output_files ]; then
-#		output_files=$(realpath $output_files)
-#	fi
-#else
-#	output_files=$(dirname $hps_isw_handoff_dir)/output_files
-#fi
+#echo -e "??? /home/$(whoami)/temp_output_quartus" #if [ ! -d $(dirname $hps_isw_handoff_dir)/output_files ]; then #	echo -e "\n\t\tEnter full path to directory <output_files>" #	read output_files #	if [ -s $output_files ]; then #		output_files=$(realpath $output_files) #	fi #else #	output_files=$(dirname $hps_isw_handoff_dir)/output_files #fi
 
 if [ -d "$project/output_files" ]; then
 #    sof_file=$(find $(realpath $output_files) -maxdepth 1 -type f -name *.sof)
