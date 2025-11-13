@@ -1,0 +1,65 @@
+=> coninfo
+List of available devices
+|-- serial1@ffc02100 (IO)
+|-- serial (IO)
+|   |-- stdin
+|   |-- stdout
+|   |-- stderr
+
+=> fatinfo
+usage: fatinfo <interface> [<dev[:part]>]
+
+=> iminfo
+
+## Checking Image at 01000000 ...
+   Legacy image found
+   Image Name:   U-Boot 2025.07 for arria10-socdk
+   Created:      2025-11-10   6:44:21 UTC
+   Image Type:   ARM U-Boot Firmware (uncompressed)
+   Data Size:    502444 Bytes = 490.7 KiB
+   Load Address: 01000040
+   Entry Point:  01000040
+   Verifying Checksum ...    Bad Data CRC
+
+=> setenv myNumber 123456
+=> printenv myNumber
+myNumber=123456
+
+=> setenv dumpaddr md.b \${addr} \${bytes}
+=> printenv dumpaddr
+dumpaddr=md.b ${addr} ${bytes}
+=> setenv addr 2C000
+=> setenv bytes 5
+=> run dumpaddr
+0002c000: 00 00 00 4f 93                                   ...O.
+
+
+setenv var val;printenv var;saveenv
+var=val
+Saving Environment to MMC... Writing to MMC(0)... 
+..........restart ?
+
+
+=> printenv baudrate 
+baudrate=115200
+=> printenv bootcmd 
+bootcmd=run fatscript;run prog_core;bridge enable;run distro_bootcmd
+
+=> mmc info
+Device: dwmmc0@ff808000
+Manufacturer ID: 9f
+EM: 5449
+Name: SDCIT 
+Bus Speed: 50000000
+Mode: SD High Speed (50MHz)
+Rd Block Len: 512
+SD version 3.0
+High Capacity: Yes
+Capacity: 7.5 GiB
+Bus Width: 4-bit
+Erase Group Size: 512 Bytes
+
+
+=> mmc part  
+
+Partition Map for mmc device 0  --   Partition Type: DOS
