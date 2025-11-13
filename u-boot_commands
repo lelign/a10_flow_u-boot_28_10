@@ -63,3 +63,42 @@ Erase Group Size: 512 Bytes
 => mmc part  
 
 Partition Map for mmc device 0  --   Partition Type: DOS
+
+bootdev list
+Seq  Probed  Status  Uclass    Name
+---  ------  ------  --------  ------------------
+  0   [   ]      OK  ethernet  ethernet@ff800000.bootdev
+  1   [   ]      OK  mmc       dwmmc0@ff808000.bootdev
+---  ------  ------  --------  ------------------
+=> bootdev select mmc
+=> bootdev info      
+Name:      dwmmc0@ff808000.bootdev
+Sequence:  1
+Status:    Probed
+Uclass:    mmc
+Bootflows: 0 (0 valid)
+
+=> bootmeth list -a
+Order  Seq  Name                Description
+-----  ---  ------------------  ------------------
+    0    0  extlinux            extlinux
+ glob    1  efi_mgr             EFI bootmgr flow
+    2    2  efi                 EFI
+    3    3  pxe                 PXE
+ glob    4  vbe_simple          vbe-simple
+-----  ---  ------------------  ------------------
+
+=> bootstd images
+Seq  Bootflow             Type                  At      Size  Filename
+---  -------------------  --------------  --------  --------  ----------------
+---  -------------------  --------------  --------  --------  ----------------
+(0 images)
+
+bootmenu
+  *** U-Boot Boot Menu ***
+
+      Exit
+
+  Hit any key 10...  
+  Press UP/DOWN to move, ENTER to select, ESC to quit
+
