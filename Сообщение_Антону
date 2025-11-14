@@ -32,3 +32,36 @@ https://electronix.ru/forum/topic/163750-uboot-i-mmc0-gruzitsya-no-razdel-ne-vid
 что контакты под mmc0 не заняты под какие-нить другие узлы (i2c, spi, gpio)
 
 на IRU в menu_config добавил конфигурационный файл
+
+
+посмотрел, где в u-boot назначается mmc0
+
+# 1
+u-boot-socfpga_v2025.07_a10_only/arch/arm/dts/socfpga_arria10.dtsi
+		mmc: dwmmc0@ff808000 {
+			#address-cells = <1>; 
+			#size-cells = <0>;
+			compatible = "altr,socfpga-dw-mshc"; <= кажется у нас другое название
+			reg = <0xff808000 0x1000>;
+			interrupts = <0 98 IRQ_TYPE_LEVEL_HIGH>;
+			fifo-depth = <0x400>;
+			clocks = <&l4_mp_clk>, <&sdmmc_clk>;
+			clock-names = "biu", "ciu";
+			resets = <&rst SDMMC_RESET>;
+			status = "disabled";       <= странное значение
+		};
+
+# 2
+u-boot-socfpga_v2025.07_a10_only/arch/arm/dts/socfpga.dtsi
+		mmc: dwmmc0@ff704000 {
+			compatible = "altr,socfpga-dw-mshc"; <= кажется у нас другое название
+			reg = <0xff704000 0x1000>;
+			interrupts = <0 139 4>;
+			fifo-depth = <0x400>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&l4_mp_clk>, <&sdmmc_clk_divided>;
+			clock-names = "biu", "ciu";
+			resets = <&rst SDMMC_RESET>;
+			status = "disabled";        <= странное значение
+		};
