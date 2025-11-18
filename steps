@@ -176,3 +176,28 @@ source "arch/arm/mach *"
 кое-что забыл
 cp ~/mach//arm/dts/Makefile u-boot-socfpga_v2025.07_a10_only/arch/arm/dts
 
+Boot options > Boot media  Support for booting from SD/EMMC
+Boot options > Autoboot options Show a menu on boot
+SPL configuration options Support returning to the BOOTROM
+Device Drivers > Watchdog Timer Support (25000) Watchdog timeout in msec
+
+Command line interface > Device access commands lsblk  
+                                                clk
+                                                MBR
+OK log_lsblk_clk_MBR
+Command line interface > Memory commands meminfo (with memory map)
+                                         memtest
+
+Command line interface > Device access commands Enable support for reading card registers
+
+
+назначение адресов
+arch/arm/mach-socfpga/include/mach/base_addr_a10.h
+
+рабочие файлы
+arch/arm/dts/socfpga.dtsi <= mmc: dwmmc0@ff704000 {
+arch/arm/dts/socfpga_arria10.dtsi <= mmc: dwmmc0@ff808000 {
+
+попытался удалить все, не относящееся к а10 из arch/arm/dts <=u-boot перестал собираться
+подменил periph при сборке mkimage на вариант gsrd <= увы не стартует
+                                                
