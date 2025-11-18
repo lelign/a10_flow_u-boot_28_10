@@ -198,6 +198,13 @@ arch/arm/mach-socfpga/include/mach/base_addr_a10.h
 arch/arm/dts/socfpga.dtsi <= mmc: dwmmc0@ff704000 {
 arch/arm/dts/socfpga_arria10.dtsi <= mmc: dwmmc0@ff808000 {
 
-попытался удалить все, не относящееся к а10 из arch/arm/dts <=u-boot перестал собираться
+попытался удалить все, не относящееся к а10 из arch/arm/dts <= u-boot перестал собираться
 подменил periph при сборке mkimage на вариант gsrd <= увы не стартует
+подменил core при сборке mkimage на вариант gsrd <= стартует, log тот же самый mmc part увы
+скачал gsrd-console-image-arria10.wic записал посредством etcher на sd 
+partions в другом порядке
+разумеется не загружается
+перезаписал в raw свой вариант u-boot-splx4.sfp <= не загружается
+заменил fit_spl_fpga.itb в BOOT области <= загрузился, лог несколько иной (u_boot.img из gsrd) в основном без изменений
+
                                                 
