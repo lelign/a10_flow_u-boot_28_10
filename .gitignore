@@ -35,8 +35,15 @@ gsrd_output_files
 vic_hps_isw_handoff
 vic_output_files
 u-boot-socfpga_v2025.07_a10_only/
+<<<<<<< Updated upstream
 menu_config/
 18-11_13_42_33_change_chip/
 18-11_16_31_35_change_2/
 18-11_17_09_05_replaced_10AS066N3F40E2SG_to_10AS027H4F34E3SG/
 gsrd_build.log
+=======
+u-boot-socfpga_v2025.07_a10_anton_changes/
+menu_config/
+u_boot_ver_anton
+.vscode/
+>>>>>>> Stashed changes

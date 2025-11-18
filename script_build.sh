@@ -1,4 +1,4 @@
-.#!/bin/bash
+#!/bin/bash
 home=$('pwd')
 rm -rf $home/log
 ########## check compiler
@@ -33,14 +33,15 @@ else
 	echo -e "\t$a10_example_sdmmc direcitory doesn't exist, \n\tdo build manually" | tee -a $home/log
 	exit
 fi
-QUARTUS_ROOTDIR=/home/ignat/Quartus/Quartus_pro_21_4/quartus
+QUARTUS_ROOTDIR=/home/$(whoami)/intelFPGA_pro/21.4/quartus
 if [ -d "$QUARTUS_ROOTDIR" ]; then
-	export QUARTUS_ROOTDIR=/home/ignat/Quartus/Quartus_pro_21_4/quartus
+	export QUARTUS_ROOTDIR=/home/$(whoami)/Quartus/Quartus_pro_21_4/quartus
 	export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/linux64:$QUARTUS_ROOTDIR/../qsys/bin:$PATH
 else
 	echo -e "\tQUARTUS dir not found, check is disk partion with QUARTUS mounted" | tee -a $home/log
 	exit
 fi
+
 
 cd $TOP_FOLDER
 a10_soc_devkit_ghrd_pro=a10_soc_devkit_ghrd_pro
@@ -106,23 +107,23 @@ if [ $gen_gsrd != "n" ]; then
 	make generate_from_tcl > ../../gsrd_gen.log 2>&1 &
 	while [ true ]; do
 		echo -e "\n\t\t\tГЕНЕРАЦИЯ ПРОЕКТА согласно design_config.tcl, лог пишем в gsrd_gen.log\n\t\t\t<make generate_from_tcl>" | tee -a $home/log
-		echo -e "\t\t\twait for pid $(pgrep -u ignat -l | grep quartus* | tail -1 | cut -d " " -f 1)" #| tee -a $home/log
+		echo -e "\t\t\twait for pid $(pgrep -u $(whoami) -l | grep quartus* | tail -1 | cut -d " " -f 1)" #| tee -a $home/log
 		sleep 2
 		clear
-		if [ -n $(pgrep -u ignat -l | grep quartus* | tail -1 | cut -d " " -f 1) ]; then
+		if [ -n $(pgrep -u $(whoami) -l | grep quartus* | tail -1 | cut -d " " -f 1) ]; then
 			break
 		fi
 	done
 	while [ true ]; do
 		clear
 		echo -e "\n\t\t\tГЕНЕРАЦИЯ ПРОЕКТА согласно design_config.tcl, лог пишем в gsrd_gen.log\n\t\t\t<make generate_from_tcl>" # | tee -a $home/log
-		echo -e "\t\t\ttotal quartus pids : $(pgrep -u ignat -l | grep quartus* | wc -l)"
+		echo -e "\t\t\ttotal quartus pids : $(pgrep -u $(whoami) -l | grep quartus* | wc -l)"
 		echo -e "\t\t\tготово $(($(wc -l ../../gsrd_gen.log | cut -d " " -f 1)*100/920))%\n\t\t\t" # | tee -a $home/log
 #		echo -e "\t\t\tpid $(pgrep -u ignat -l | grep quartus* | head -1 | cut -d " " -f 1)" #| tee -a $home/log
 #		echo -e "\t\t\tpid $(pgrep -u ignat -l | grep quartus* | tail -1 | cut -d " " -f 1)" #| tee -a $home/log
 		sleep 3
 		clear
-		if [ -z $(pgrep -u ignat -l | grep quartus* | tail -1 | cut -d " " -f 1) ]; then
+		if [ -z $(pgrep -u $(whoami) -l | grep quartus* | tail -1 | cut -d " " -f 1) ]; then
 			break
 		fi
 	done
