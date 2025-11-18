@@ -335,13 +335,14 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
 
     ln -s $output_files/$core ghrd_10as066n2.core.rbf
     ln -s $output_files/$periph ghrd_10as066n2.periph.rbf
+	#read -p "меняем ссылки для mkimage: " my_link_image
 
     echo -e "\n\t\tstart tools/mkimage\n"    
     echo $title > $home/fit_log
     tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb | tee -a $home/fit_log
     fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb)
     date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S")
-	fit_spl_fpga_itb_prf=$(file u-boot/fit_spl_fpga.itb | cut -d ":" -f 2)
+	fit_spl_fpga_itb_prf=$(file $fit_spl_fpga_itb | cut -d ":" -f 2)
     echo -e "\n\tfit_spl_fpga.itb <= $fit_spl_fpga_itb_prf \n\t$date_fit_spl_fpga_itb" | tee -a $home/log
 else
     echo -e "Error : file $core or file $periph on path $output_files not found !"
