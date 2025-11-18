@@ -335,7 +335,7 @@ if [[ -f $output_files/$core &&  -f $output_files/$periph ]]; then
 
     ln -s $output_files/$core ghrd_10as066n2.core.rbf
     ln -s $output_files/$periph ghrd_10as066n2.periph.rbf
-	#read -p "меняем ссылки для mkimage: " my_link_image
+	read -p "меняем ссылки для mkimage: " my_link_image
 
     echo -e "\n\t\tstart tools/mkimage\n"    
     echo $title > $home/fit_log
