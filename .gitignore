@@ -45,3 +45,4 @@ menu_config/
 u_boot_ver_anton
 .vscode/
 generated_quartus_projects/
+gsrd_native/
