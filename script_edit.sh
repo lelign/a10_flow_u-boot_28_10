@@ -1,0 +1,1 @@
+/home/iru/a10_flow_u-boot_28_10/generated_quartus_projects/script_edit.sh
