@@ -209,3 +209,14 @@ partions в другом порядке
 
 в gsrd произвел 29 замен вхождений 10AS066N3F40E2SG на 10AS027H4F34E3SG
 проект сгенерирован
+
+все переделал, т.к. запутался с редакцией tcl скриптов под использование чипа 10AS027H4F34E3SG
+в основном flow создал два каталога
+gsrd_native <= из git clone -b QPDS24.3_REL_GSRD_PR https://github.com/altera-opensource/ghrd-socfpga
+gsrd_edited <= относительно gsrd_native три замены вхождений 10AS066N3F40E2SG на 10AS027H4F34E3SG
+        1 gsrd_edited/design_config.tcl:18
+                set FPGA_DEVICE 10AS027H4F34E3SG
+        2 gsrd_edited/Makefile:89
+                QUARTUS_DEVICE ?= 10AS027H4F34E3SG
+        3 gsrd_edited/custom_ip/diffin/construct_diffin.tcl:15
+                set FPGA_DEVICE 10AS027H4F34E3SG
