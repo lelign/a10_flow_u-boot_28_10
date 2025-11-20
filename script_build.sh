@@ -109,14 +109,7 @@ echo -e"\t\t\t$gen_gsrd" >> $home/log
 	echo -e "\t\t\t$compile" >> $home/log
 #fi
 if [ $cl_ean != "n" ]; then
-	if [ -d "./output_files" ]; then
-		mv ./output_files ./.$(date "+%d-%m_%H_%M_%S_output_files")
-		echo -e '\toutput_files сохранены как $(date "+%d-%m_%H_%M_%S_output_files")' | tee -a $home/log
-	fi
-	if [ -d "./hps_isw_handoff" ]; then
-		mv ./hps_isw_handoff ./.$(date "+%d-%m_%H_%M_%S_hps_isw_handoff")
-		echo -e '\thps_isw_handoff сохранены как $(date "+%d-%m_%H_%M_%S_hps_isw_handoff")' | tee -a $home/log
-	fi
+	#if [ -d "./output_files" ]; then mv ./output_files ./.$(date "+%d-%m_%H_%M_%S_output_files") echo -e '\toutput_files сохранены как $(date "+%d-%m_%H_%M_%S_output_files")' | tee -a $home/log fi if [ -d "./hps_isw_handoff" ]; then mv ./hps_isw_handoff ./.$(date "+%d-%m_%H_%M_%S_hps_isw_handoff") echo -e '\thps_isw_handoff сохранены как $(date "+%d-%m_%H_%M_%S_hps_isw_handoff")' | tee -a $home/log fi
 	echo -e "\n\n\n\\t\t\tОЧИСТКА ПРОЕКТА\n\t\t\tmake clean && make scrub_clean && rm -rf software" | tee -a $home/log
 	make clean && make scrub_clean && rm -rf software | tee -a $home/log
 	sleep 5
