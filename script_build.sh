@@ -21,13 +21,7 @@ else
 fi
 
 a10_example_sdmmc=$('pwd')/a10_example.sdmmc
-#echo $a10_example_sdmmc
-#find_dir=$(find . -maxdepth 1 -type d -name $a10_example_sdmmc)
-#dir_exist=$(find_dir ". -maxdepth 1 -type d -name $a10_example_sdmmc")
-
-#check=$(file $a10_example_sdmmc | cut -d ":" -f 2-)
-#echo "check=$check"
-if [ $(file $a10_example_sdmmc | cut -d ":" -f 2-) == "directory" ]; then
+if [ -d $a10_example_sdmmc ]; then
 	cd $a10_example_sdmmc
 	TOP_FOLDER=`pwd`
 	echo -e "\t\tTOP_FOLDER=$TOP_FOLDER" | tee -a $home/log
@@ -36,6 +30,7 @@ else
 	exit
 fi
 
+############### find Quartus
 except=("old_yocto" "lost+found" "windows" "old_ubuntu")
 for q in $(lsblk --pairs | grep 'RM="0"' | grep -v 'MOUNTPOINTS=""' | grep -v loop | grep -v "/boot/efi" | cut -d '"' -f 14); do
 	if [ $q == "/" ]; then
@@ -61,9 +56,7 @@ for q in $(lsblk --pairs | grep 'RM="0"' | grep -v 'MOUNTPOINTS=""' | grep -v lo
 		break
 	fi
 done
-#echo "here QUARTUS_ROOTDIR=$QUARTUS_ROOTDIR"
-#exit
-#QUARTUS_ROOTDIR=/home/$(whoami)/intelFPGA_pro/21.4/quartus
+
 if [ -d "$QUARTUS_ROOTDIR" ]; then
 	export QUARTUS_ROOTDIR=$(realpath $QUARTUS_ROOTDIR)
 	export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/linux64:$QUARTUS_ROOTDIR/../qsys/bin:$PATH
@@ -75,8 +68,9 @@ fi
 
 cd $TOP_FOLDER
 a10_soc_devkit_ghrd_pro=a10_soc_devkit_ghrd_pro
-if [ $(file $a10_soc_devkit_ghrd_pro | cut -d ":" -f 2-) == "directory" ]; then
-	cd a10_soc_devkit_ghrd_pro
+rm -rf $a10_soc_devkit_ghrd_pro && mkdir $a10_soc_devkit_ghrd_pro
+if [ -d $a10_soc_devkit_ghrd_pro ]; then
+	cd $a10_soc_devkit_ghrd_pro
 	gsrd_dir=$(pwd)
 else
 	echo -e "\t\ta10_soc_devkit_ghrd_pro direcitory doesn't exist, \n\tdo build manually"
@@ -88,42 +82,51 @@ save="n"
 name=""
 compile="n"
 gen_gsrd="n"
-#echo -e "\n\t Очистить проект? Будут удалены файлы .qsf .qpf .v и все, что касается u-boot?\n\t\t y/n" | tee -a $home/log
+
+############## ask about presets
 read -p $'\n\t'"Очистить проект? Будут удалены файлы .qsf .qpf .v и все, что касается u-boot? : y/n " cl_ean
-#read cl_ean #| tee -a $home/log
 echo "\t\t\t$cl_ean" >> $home/log
-#echo -e "\n\tГенерировать проект (<make generate_from_tcl> ~3 минуты)?\n\tБудут созданы файлы .qsf .qpf .v.\n\t\t y/n" | tee -a $home/log
+
 read -p $'\n\t'"Генерировать проект (<make generate_from_tcl> ~3 минуты)? Будут созданы файлы .qsf .qpf .v. y/n " gen_gsrd #| tee -a $home/log
 echo -e"\t\t\t$gen_gsrd" >> $home/log
-#if [ $gen_gsrd != "n" ]; then
-	#echo -e "\n\tСохранить проект?\n y/n" | tee -a $home/log
-	read -p $'\n\t'"Сохранить проект? y/n " save #| tee -a $home/log
-	echo -e "\t\t\t$save" >> $home/log
-	if [ $save != "n" ]; then
-        	#echo -e "\tИмя проекта ?:" | tee -a $home/log
-        	read -p $'\n\t'"Имя проекта ?: " name #| tee -a $home/log
-		echo -e "\t\t\t$name" >> $home/log
-	fi
-	#echo -e "\n\tКомпилировать проект (<make rbf> ~10 минут)?\n\tБудут перезаписаны файлы в output_files и hps_isw_handoff.\n\t\ty/n" | tee -a $home/log
-	read -p $'\n\t'"Компилировать проект (<make rbf> ~10 минут)? Будут перезаписаны файлы в output_files и hps_isw_handoff y/n " compile #| tee -a $home/log
-	echo -e "\t\t\t$compile" >> $home/log
-#fi
-if [ $cl_ean != "n" ]; then
-	#if [ -d "./output_files" ]; then mv ./output_files ./.$(date "+%d-%m_%H_%M_%S_output_files") echo -e '\toutput_files сохранены как $(date "+%d-%m_%H_%M_%S_output_files")' | tee -a $home/log fi if [ -d "./hps_isw_handoff" ]; then mv ./hps_isw_handoff ./.$(date "+%d-%m_%H_%M_%S_hps_isw_handoff") echo -e '\thps_isw_handoff сохранены как $(date "+%d-%m_%H_%M_%S_hps_isw_handoff")' | tee -a $home/log fi
+
+read -p $'\n\t'"Сохранить проект? y/n " save #| tee -a $home/log
+echo -e "\t\t\t$save" >> $home/log
+if [ $save != "n" ]; then
+		read -p $'\n\t'"Имя проекта ?: " name #| tee -a $home/log
+	echo -e "\t\t\t$name" >> $home/log
+fi
+
+read -p $'\n\t'"Компилировать проект (<make rbf> ~10 минут)? Будут перезаписаны файлы в output_files и hps_isw_handoff y/n " compile #| tee -a $home/log
+echo -e "\t\t\t$compile" >> $home/log
+
+if [ $cl_ean != "n" ]; then	
 	echo -e "\n\n\n\\t\t\tОЧИСТКА ПРОЕКТА\n\t\t\tmake clean && make scrub_clean && rm -rf software" | tee -a $home/log
+	rm -rf $(ls)
+	read -p $'\n\t'"Какой вариант gsrd исользовать ?"$'\n\t'`
+		`"1 (gsrd_edited)"$'\n\t'"2 (gsrd_native)"$'\n\t\t\t' var_gsrd
+	if  [[ "$var_gsrd" =~ ^[1-2]+$ ]]; then
+		if [[ -d $home/gsrd_edited && "$var_gsrd" == 1 ]]; then
+			cp -r $home/gsrd_edited/* .
+		fi 
+		if [[ -d $home/gsrd_native && "$var_gsrd" == 2 ]]; then
+			cp -r $home/gsrd_native/* .
+		fi 
+	else 
+		echo -e "\n\tError : ошибка выбора варианта $var_gsrd <= ??? \n\texit..."
+		exit
+	fi
 	make clean && make scrub_clean && rm -rf software | tee -a $home/log
 	sleep 5
 fi
+
+
 title=$(date "+%d-%m_%H_%M_%S"_"$name")
 
-	#echo -e "что-то изменить после очистки? y/n"
  	read -p $'\n\t'"что-то изменить после очистки? y/n " change_after_clean
-	if [ $change_after_clean == "y" ]; then
-		#echo -e "продолжим? y/n"
+	if [ $change_after_clean == "y" ]; then		
 		read --p $'\n\t'"продолжим? y/n" go_after_clean
-		#if [ $go_after_clean == "y" ]; then
 		echo "\t\t\t go!!!"
-		#fi
 	fi
 
 if [ $gen_gsrd != "n" ]; then
@@ -134,7 +137,6 @@ if [ $gen_gsrd != "n" ]; then
 	while [ true ]; do
 		echo -e "\n\t\t\tГЕНЕРАЦИЯ ПРОЕКТА согласно design_config.tcl, лог пишем в gsrd_gen.log\n\t\t\t<make generate_from_tcl>" | tee -a $home/log
 		echo -e "\t\t\twait for pid $(pgrep -u $(whoami) -l | grep quartus* | tail -1 | cut -d " " -f 1)" #| tee -a $home/log
-		#echo "pid_process = $pid_process"
 		sleep 2
 		clear
 		if [ -n $(pgrep -u $(whoami) -l | grep quartus* | tail -1 | cut -d " " -f 1) ]; then
@@ -147,9 +149,6 @@ if [ $gen_gsrd != "n" ]; then
 		echo -e "\t\t\ttotal quartus pids : $(pgrep -u $(whoami) -l | grep quartus* | wc -l)"
 		echo -e "\t\t\tготово $(($(wc -l ../../gsrd_gen.log | cut -d " " -f 1)*100/920))%\n\t\t\t" # | tee -a $home/log
 		tail -10 ../../gsrd_gen.log
-		#echo "pid_process = $pid_process"
-#		echo -e "\t\t\tpid $(pgrep -u ignat -l | grep quartus* | head -1 | cut -d " " -f 1)" #| tee -a $home/log
-#		echo -e "\t\t\tpid $(pgrep -u ignat -l | grep quartus* | tail -1 | cut -d " " -f 1)" #| tee -a $home/log
 		sleep 3
 		clear
 		if [ $(pgrep -u $(whoami) -l | grep -c $pid_process) == 0  ]; then
@@ -158,6 +157,7 @@ if [ $gen_gsrd != "n" ]; then
 	done
 	echo -e "\n\t\t\tГЕНЕРАЦИЯ ПРОЕКТА согласно design_config.tcl, лог пишем в gsrd_gen.log\n\t\t\t<make generate_from_tcl>"
 	echo -e "\t\t\tготово 100%" | tee -a $home/log
+
 	############### REPORT
 	echo -e "\n\t\tмодифицированные файлы в $TOP_FOLDER/$a10_soc_devkit_ghrd_pro" | tee -a $home/log
 	f_ar=()
