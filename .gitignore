@@ -45,4 +45,8 @@ menu_config/
 u_boot_ver_anton
 .vscode/
 generated_quartus_projects/
-
+gsrd_native/
+errors_files/
+temp.sh
+in_both_project
+total_errors_array
