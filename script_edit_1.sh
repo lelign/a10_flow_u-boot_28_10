@@ -253,11 +253,11 @@ for pin_included in ${arr_pin_included[@]}; do
                         #pin_exist=1
                         ((cnt_in+=1))
                         #echo -e "\t$cnt_in\t$pin_source in arr_pin_included[@]"
-                        echo "$cnt_in" >> in_both_project
+                        echo -e "$cnt_in\t$pin_included" >> in_both_project
                         for_pin_included=$(cat errors_files/edited_create_ghrd_quartus.tcl | grep "$pin_included -to")
                         for_pin_source=$(cat $source_qsf | grep "$pin_source -to")
-                        echo "included $for_pin_included" >> in_both_project
-                        echo "source $for_pin_source" >> in_both_project
+                        echo "$for_pin_included" >> in_both_project
+                        echo -e "source :\t\t$for_pin_source" >> in_both_project
                         echo "" >> in_both_project
                         break
                 #else
