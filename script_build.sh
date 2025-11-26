@@ -173,24 +173,25 @@ if [ $gen_gsrd != "n" ]; then
 	for el in "${f_ar[@]}"; do
 		echo -e "$(basename "$el") \t$el" | tee -a $home/log
 	done
-
-	if [ $save != "n" ]; then
-		cd ../../
-		if [ ! -d "generated_quartus_projects" ]; then
-			mkdir generated_quartus_projects
-		fi
-		cd generated_quartus_projects
-		mkdir $title && cd $title && echo -e "\t\tgenerated $title" > info_$title
-		for el in $(find $gsrd_dir -maxdepth 1 -mmin -5); do
-				cp $el .
-				echo -e "$(basename "$el") \t\t$el" >> info_$title
-		done
-		cp -r $gsrd_dir/ip .
-		cp -r $gsrd_dir/qdb .
-		cp -r $gsrd_dir/custom_ip .
-		echo -e "\n\t\t\tПроект сохранен как $(pwd)" | tee -a $home/log
-	fi
 fi
+if [ $save != "n" ]; then
+	cd ../../
+	if [ ! -d "generated_quartus_projects" ]; then
+		mkdir generated_quartus_projects
+	fi
+	cd generated_quartus_projects
+	mkdir $title && cd $title && echo -e "\t\tgenerated $title" > info_$title
+	for el in $(ls $gsrd_dir); do
+			cp -r $gsrd_dir/$el .
+			echo -e "$(basename "$el") \t\t$el" >> info_$title
+	done
+	#cp -r $gsrd_dir/ip .
+	#cp -r $gsrd_dir/qdb .
+	#cp -r $gsrd_dir/custom_ip .
+	echo -e "\n\t\t\tПроект сохранен как $(pwd)" | tee -a $home/log
+fi
+
+
 
 cd $TOP_FOLDER && cd $a10_soc_devkit_ghrd_pro
 if [ $compile != "n" ]; then
