@@ -156,7 +156,8 @@ echo "" > $home/u-boot.log
 me_co_ar=()
 #unset make_task
 unset choice
-if [ ! -d "$home/menu_config" ]; then 
+#if [ ! -d "$home/menu_config" ]; then 
+if [ -z "$(ls -A "$home/menu_config" 2>/dev/null)" ]; then
 	echo -e "\n\tНет доступных конфигураций для u-boot!"
 	echo -e "\n\tБудет сгенерирована конфигурация <default> для u-boot!"
 	echo -e "\n\t<make socfpga_arria10_defconfig>"
@@ -164,7 +165,9 @@ if [ ! -d "$home/menu_config" ]; then
 	
 	make socfpga_arria10_defconfig
 	if [ -f "$(pwd)/.config" ]; then
-		mkdir $home/menu_config
+		if [ ! -d "$home/menu_config" ]; then
+			mkdir $home/menu_config
+		fi
 		cp $(pwd)/.config $home/menu_config/.config_default
 		rm $(pwd)/.config
 		ln -s $home/menu_config/.config_default $(pwd)/.config
@@ -172,7 +175,9 @@ if [ ! -d "$home/menu_config" ]; then
 		echo -e "/n/tError: Что-то не так, отсутсвует файл .config после выполнения <make socfpga_arria10_defconfig>"
 	fi
 fi
-if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
+
+#if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc -l) -gt 0 ]]; then
+if [[ -n "$(ls -A "$home/menu_config" 2>/dev/null)" ]]; then
 	#echo found
 	echo -e "\n\tВариант конфигурации u-boot (ввести номер)"
 	printf "\t%-3s | %-50s | %-10s\n" "№  " "конфигурация" "дата создания"
@@ -204,7 +209,8 @@ if [[ -d "$home/menu_config" && $(find $home/menu_config -iname ".config_*" | wc
 		echo -e "\n\tError : ошибка выбора варианта конфигурации $num <= ??? \n\texit..."
 		exit
 	fi
-		
+else
+	echo -e "\n\tError : что-то не так, в $home/menu_config не найдены файлы конфигурации \n\texit..."
 fi
 #echo -e "\tВыбрана конфигурация : $choice"
 #cp $choice .config
