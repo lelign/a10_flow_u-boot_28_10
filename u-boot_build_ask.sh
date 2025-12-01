@@ -145,7 +145,7 @@ fi
 
 
 sleep 5
-clear
+#clear
 export CROSS_COMPILE=arm-none-linux-gnueabihf-
 
 echo "" > $home/u-boot.log
@@ -275,7 +275,7 @@ sleep 3
 make -j ${nproc}  > $home/u-boot.log 2>&1 &
 u_boot_pid_process=$!
 while [ $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871)) -lt 100 ]; do
-	clear
+	#clear
 	echo -e "\n\t\t\tU-BOOT сборка, лог пишем в u-boot.log"
 	echo -e "\t\t\tготово $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871))%"
 	if [ $(cat $home/u-boot.log | grep Error -c) -gt 0 ]; then 
@@ -294,7 +294,7 @@ while [ $(($(wc -l $home/u-boot.log | cut -d " " -f 1)*100/871)) -lt 100 ]; do
 	fi
 	sleep .5
 done
-clear
+#clear
 echo -e "\n\t\t\tU-BOOT собран, лог записан в u-boot.log"
 
 #if [[ -f $gsrd_dir/output_files/ghrd_10as066n2.core.rbf  && -f $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf ]]; then #	ln -s $gsrd_dir/output_files/ghrd_10as066n2.core.rbf . #	ln -s $gsrd_dir/output_files/ghrd_10as066n2.periph.rbf . #else #	echo -e "error : files ghrd_10as066n2.core.rbf or ghrd_10as066n2.periph.rbf not found in path $gsrd_dir" | tee -a $home/log #	exit #fi #tools/mkimage -E -f board/altera/arria10-socdk/fit_spl_fpga.its fit_spl_fpga.itb #fit_spl_fpga_itb=$(realpath ./fit_spl_fpga.itb) #date_fit_spl_fpga_itb=$(date -r $fit_spl_fpga_itb  +"%B-%d %H:%M:%S") #echo -e "\t$fit_spl_fpga_itb \t$date_fit_spl_fpga_itb" | tee -a $home/log
@@ -502,7 +502,7 @@ if [ $continue == "y" ]; then
 			else
 				echo -e "\t\tSD карта не найдена! Вставьте SD карту!"
 				sleep 1
-				clear
+				#clear
 			fi
 		done
 
