@@ -212,6 +212,13 @@ if [[ -n "$(ls -A "$home/menu_config" 2>/dev/null)" ]]; then
 else
 	echo -e "\n\tError : что-то не так, в $home/menu_config не найдены файлы конфигурации \n\texit..."
 fi
+#####################################################################################################
+######################### clean
+# make clean && make mrproper
+
+
+
+
 #echo -e "\tВыбрана конфигурация : $choice"
 #cp $choice .config
 #echo -e "\n\tИзменить конфигурацию <make menuconfig> для $(basename $choice) ? (y/n)"
