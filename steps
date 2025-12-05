@@ -220,3 +220,10 @@ gsrd_edited <= относительно gsrd_native три замены вхож
                 QUARTUS_DEVICE ?= 10AS027H4F34E3SG
         3 gsrd_edited/custom_ip/diffin/construct_diffin.tcl:15
                 set FPGA_DEVICE 10AS027H4F34E3SG
+
+
+
+
+Создана копия каталога u-boot-socfpga_v2025.07_a10_only с названием u-boot-socfpga_v2025.07_a10_only_1516 для внесения правок в исходники u_boot для нашей платы 1516
+В ней в файле /home/iru/a10_flow_u-boot_28_10/u-boot-socfpga_v2025.07_a10_only_1516/arch/arm/dts/socfpga_arria10.dtsi изменен gmac0 -> gmac2, gmac2 -> gmac0, строчки 422 и 462
+Это сделано для того, чтобы u_boot искал порт ethernet по адресному простраству, соответсвующему gmac2. Как это сделать правильно, пока непонятно.
